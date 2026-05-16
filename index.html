@@ -1,200 +1,1489 @@
-I want you to act as a Jeju travel researcher + family road trip planner.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>RailADM — OLIVE Wireframe</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Arial,Helvetica,sans-serif;background:#0f172a;}
+.hidden{display:none!important;}
+.screen{width:100%;min-height:100vh;}
+/* OLIVE */
+.ol-nav{background:#1e3a5f;display:flex;align-items:center;padding:0 20px;height:48px;gap:16px;}
+.ol-logo{color:#7dd3fc;font-weight:700;font-size:15px;}
+.ol-link{color:#94a3b8;font-size:12px;padding:4px 10px;cursor:pointer;}
+.ol-link:hover{color:#fff;}
+.ol-body{display:flex;min-height:calc(100vh - 48px);}
+.ol-sb{width:180px;background:#fff;border-right:1px solid #e2e8f0;padding:12px 0;}
+.ol-si{padding:8px 16px;font-size:12px;color:#475569;cursor:pointer;}
+.ol-si:hover{background:#f1f5f9;}
+.ol-si.on{background:#eff6ff;color:#1d4ed8;font-weight:600;}
+.ol-main{flex:1;padding:24px;background:#f8fafc;}
+.ol-h1{font-size:20px;font-weight:600;color:#1e293b;margin-bottom:4px;}
+.ol-h2{font-size:13px;color:#64748b;margin-bottom:24px;}
+.ol-sec{font-size:11px;font-weight:600;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px;}
+.ol-tiles{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px;}
+.ol-tile{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:16px 14px;width:128px;cursor:pointer;text-align:center;transition:all .15s;}
+.ol-tile:hover{border-color:#3b82f6;box-shadow:0 0 0 2px #dbeafe;}
+.ol-tile-ic{font-size:22px;margin-bottom:6px;}
+.ol-tile-lb{font-size:11px;color:#475569;font-weight:500;}
+.ol-tile.star{border:2px solid #f59e0b;background:#fffbeb;}
+.ol-notice{background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:16px;width:270px;flex-shrink:0;}
+.srow{display:flex;gap:8px;margin-bottom:10px;}
+.sbox{flex:1;text-align:center;padding:8px;background:#f8fafc;border-radius:6px;}
+.snum{font-size:18px;font-weight:700;}
+.slbl{font-size:10px;color:#64748b;}
+/* DARK */
+.dk{background:#0f172a;color:#e2e8f0;min-height:100vh;display:flex;flex-direction:column;}
+.dk-ops{background:#0a0a1a;}
+.rnav{background:#1e293b;border-bottom:1px solid #334155;display:flex;align-items:center;padding:0 16px;height:48px;flex-shrink:0;}
+.rlogo{font-size:15px;font-weight:700;margin-right:20px;}
+.bc-wrap{display:flex;align-items:center;gap:4px;font-size:12px;flex:1;flex-wrap:wrap;}
+.bc-lnk{color:#7dd3fc;cursor:pointer;}
+.bc-lnk:hover{color:#bae6fd;}
+.bc-sep{color:#475569;}
+.bc-cur{color:#94a3b8;}
+.tog-wrap{display:flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0;}
+.tog-lbl{font-size:11px;color:#94a3b8;}
+.tog-lbl.on{color:#e2e8f0;font-weight:600;}
+.tog{width:44px;height:22px;border-radius:11px;position:relative;cursor:pointer;background:#1d4ed8;flex-shrink:0;}
+.tog.ops{background:#7c3aed;}
+.tog-dot{position:absolute;top:3px;left:3px;width:16px;height:16px;background:#fff;border-radius:50%;transition:left .2s;}
+.tog-dot.r{left:25px;}
+.rsb{width:190px;background:#1e293b;border-right:1px solid #334155;padding:12px 0;flex-shrink:0;}
+.rsb-ops{background:#111827;}
+.rsb-sec{padding:8px 16px;font-size:10px;font-weight:600;color:#64748b;letter-spacing:.8px;text-transform:uppercase;margin-top:8px;}
+.rsb-i{padding:8px 16px;font-size:12px;color:#94a3b8;cursor:pointer;border-left:2px solid transparent;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.rsb-i:hover{background:#334155;color:#e2e8f0;}
+.rsb-i.on{background:rgba(30,64,175,.2);color:#7dd3fc;border-left-color:#3b82f6;}
+.rsb-i.on-ops{background:rgba(124,58,237,.2);color:#a78bfa;border-left-color:#7c3aed;}
+.rmain{flex:1;padding:20px;overflow-y:auto;}
+.ptitle{font-size:18px;font-weight:600;color:#f1f5f9;margin-bottom:4px;}
+.psub{font-size:12px;color:#64748b;margin-bottom:20px;}
+/* Metric */
+.mc{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:14px 16px;}
+.mc-dk{background:#1a1f2e;border-color:#2d3748;}
+.mv{font-size:24px;font-weight:700;}
+.ml{font-size:11px;color:#64748b;margin-top:4px;}
+.red{color:#f87171;}.amb{color:#fbbf24;}.grn{color:#4ade80;}.blu{color:#7dd3fc;}
+.bdg{display:inline-block;font-size:10px;padding:2px 6px;border-radius:4px;margin-top:6px;font-weight:500;}
+.bd-r{background:#450a0a;color:#f87171;}.bd-a{background:#451a03;color:#fbbf24;}.bd-g{background:#052e16;color:#4ade80;}.bd-b{background:#0c1a3a;color:#7dd3fc;}
+/* Grid */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+/* Traffic light */
+.tl-wrap{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:16px;margin-bottom:20px;}
+.tl-title{font-size:13px;font-weight:600;color:#e2e8f0;margin-bottom:12px;}
+.tl-tbl{width:100%;border-collapse:collapse;}
+.tl-tbl th{font-size:10px;color:#64748b;padding:6px 8px;text-align:center;border-bottom:1px solid #334155;}
+.tl-tbl th.lh{text-align:left;}
+.tl-tbl td{padding:7px 6px;text-align:center;border-bottom:1px solid #1e293b;}
+.tl-tbl .ll{font-size:12px;color:#94a3b8;font-weight:500;text-align:left;padding:7px 8px;}
+.tl{display:inline-flex;align-items:center;gap:3px;padding:3px 7px;border-radius:10px;font-size:10px;font-weight:600;cursor:pointer;position:relative;}
+.tl:hover{opacity:.8;}
+.tl-r{background:#450a0a;color:#f87171;}.tl-a{background:#451a03;color:#fbbf24;}.tl-g{background:#052e16;color:#4ade80;}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.dot-r{background:#ef4444;}.dot-a{background:#f59e0b;}.dot-g{background:#22c55e;}
+.tip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#0f172a;border:1px solid #475569;border-radius:6px;padding:8px 10px;font-size:11px;color:#e2e8f0;white-space:pre-line;z-index:999;min-width:200px;line-height:1.6;pointer-events:none;}
+.tl:hover .tip{display:block;}
+/* Action cards */
+.ac{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:14px;}
+.ac.crit{border-left:3px solid #ef4444;}.ac.hi{border-left:3px solid #f59e0b;}.ac.med{border-left:3px solid #3b82f6;}
+.ac-urg{font-size:9px;font-weight:700;letter-spacing:.8px;margin-bottom:6px;}
+.ac-asset{font-size:13px;font-weight:600;color:#f1f5f9;margin-bottom:4px;}
+.ac-desc{font-size:11px;color:#94a3b8;margin-bottom:10px;line-height:1.5;}
+.ac-btns{display:flex;gap:6px;flex-wrap:wrap;}
+/* Buttons */
+.btn{border:none;border-radius:6px;padding:6px 12px;font-size:11px;font-weight:500;cursor:pointer;font-family:inherit;}
+.btn:hover{opacity:.85;}
+.btn-p{background:#1d4ed8;color:#fff;}.btn-s{background:#334155;color:#cbd5e1;}.btn-d{background:#7f1d1d;color:#fca5a5;}.btn-w{background:#78350f;color:#fde68a;}.btn-g{background:#14532d;color:#86efac;}
+/* Charts */
+.ch{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:16px;}
+.ch-dk{background:#1a1f2e;border-color:#2d3748;}
+.ch-t{font-size:11px;font-weight:600;color:#64748b;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px;}
+.bar-grp{display:flex;align-items:flex-end;gap:5px;height:110px;padding-bottom:8px;border-bottom:1px solid #334155;}
+.bi{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;position:relative;}
+.bar{border-radius:3px 3px 0 0;width:100%;min-height:4px;cursor:pointer;position:relative;}
+.bar:hover{opacity:.8;}
+.b-lbl{font-size:9px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48px;text-align:center;}
+.b-val{font-size:9px;color:#94a3b8;}
+.btip{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#0f172a;border:1px solid #475569;border-radius:6px;padding:8px 10px;font-size:11px;color:#e2e8f0;white-space:pre-line;z-index:999;min-width:160px;line-height:1.6;}
+.bar:hover .btip{display:block;}
+/* Table */
+.dt{width:100%;border-collapse:collapse;font-size:11px;}
+.dt th{background:#0f172a;color:#64748b;padding:7px 10px;text-align:left;font-weight:500;border-bottom:1px solid #334155;}
+.dt td{padding:7px 10px;border-bottom:1px solid #1e3a5f;color:#cbd5e1;}
+.dt tr:hover td{background:#1e3a5f;cursor:pointer;}
+.sb-wrap{background:#0f172a;border-radius:4px;height:8px;width:70px;overflow:hidden;display:inline-block;}
+.sb-fill{height:8px;border-radius:4px;}
+/* Risk bars */
+.rs-big{font-size:48px;font-weight:700;text-align:center;line-height:1;}
+.rs-lbl{font-size:11px;color:#64748b;text-align:center;margin-top:4px;margin-bottom:12px;}
+.rf{margin-bottom:10px;}
+.rf-lbl{display:flex;justify-content:space-between;font-size:12px;color:#94a3b8;margin-bottom:4px;}
+.rf-track{background:#0f172a;border-radius:4px;height:10px;}
+.rf-fill{height:10px;border-radius:4px;}
+/* Modal */
+.mo{flex:1;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;padding:20px;}
+.mb{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:24px;width:100%;max-width:580px;}
+.mt-h{font-size:16px;font-weight:600;color:#f1f5f9;margin-bottom:4px;}
+.mt-s{font-size:12px;color:#64748b;margin-bottom:16px;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.fg{display:flex;flex-direction:column;gap:4px;}
+.fl{font-size:11px;color:#94a3b8;font-weight:500;}
+input,select,textarea{background:#0f172a;border:1px solid #334155;border-radius:6px;padding:7px 10px;font-size:12px;color:#e2e8f0;outline:none;width:100%;font-family:inherit;}
+input:focus,select:focus,textarea:focus{border-color:#3b82f6;}
+textarea{resize:vertical;min-height:60px;}
+.rp{display:inline-flex;align-items:center;gap:6px;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:600;margin-bottom:16px;}
+.rp-r{background:#450a0a;color:#f87171;}.rp-a{background:#451a03;color:#fbbf24;}
+.mf{display:flex;justify-content:flex-end;gap:8px;margin-top:20px;border-top:1px solid #334155;padding-top:16px;}
+/* Config */
+.cc{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:16px;}
+.ct{font-size:13px;font-weight:600;color:#e2e8f0;margin-bottom:14px;}
+.sr{margin-bottom:14px;}
+.sl{display:flex;justify-content:space-between;font-size:12px;color:#94a3b8;margin-bottom:5px;}
+.sv{color:#7dd3fc;font-weight:500;}
+input[type=range]{accent-color:#3b82f6;cursor:pointer;}
+/* Home */
+.hs{margin-bottom:24px;}
+.hs-t{font-size:10px;font-weight:600;color:#64748b;letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.hs-t::after{content:"";flex:1;height:1px;background:#334155;}
+.hc{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:16px;cursor:pointer;transition:all .15s;}
+.hc:hover{border-color:#3b82f6;background:#1e3a5f;}
+.hc.al{border-left:3px solid #ef4444;}.hc.wn{border-left:3px solid #f59e0b;}.hc.ok{border-left:3px solid #22c55e;}
+.hc-t{font-size:13px;font-weight:600;color:#e2e8f0;margin-bottom:4px;}
+.hc-d{font-size:11px;color:#64748b;line-height:1.5;margin-bottom:10px;}
+.hc-s{font-size:20px;font-weight:700;margin-bottom:4px;}
+.hc-l{font-size:11px;color:#7dd3fc;}
+.oc{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:12px;cursor:pointer;text-align:center;transition:all .15s;}
+.oc:hover{border-color:#7c3aed;background:#2e1065;}
+.oc-t{font-size:10px;color:#94a3b8;font-weight:500;margin-top:6px;}
+/* Progress bar */
+.prog-wrap{background:#0f172a;border-radius:4px;height:10px;margin-top:4px;}
+.prog-fill{height:10px;border-radius:4px;}
+/* Risk card */
+.risk-box{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:20px 16px;text-align:center;}
+/* Section divider */
+.sec-div{font-size:10px;font-weight:600;color:#64748b;letter-spacing:.8px;text-transform:uppercase;margin:16px 0 10px;display:flex;align-items:center;gap:8px;}
+.sec-div::after{content:"";flex:1;height:1px;background:#334155;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="s-olive"      class="screen"></div>
+  <div id="s-home"       class="screen hidden"></div>
+  <div id="s-mgmt-risk"  class="screen hidden"></div>
+  <div id="s-mgmt-renew" class="screen hidden"></div>
+  <div id="s-mgmt-ops"   class="screen hidden"></div>
+  <div id="s-drill-risk" class="screen hidden"></div>
+  <div id="s-drill-renew"class="screen hidden"></div>
+  <div id="s-drill-ops"  class="screen hidden"></div>
+  <div id="s-modal-renew"class="screen hidden"></div>
+  <div id="s-modal-fund" class="screen hidden"></div>
+  <div id="s-modal-obs"  class="screen hidden"></div>
+  <div id="s-modal-audit"class="screen hidden"></div>
+  <div id="s-wl-home"    class="screen hidden"></div>
+  <div id="s-wl-inv"     class="screen hidden"></div>
+  <div id="s-wl-perf"    class="screen hidden"></div>
+  <div id="s-wl-spares"  class="screen hidden"></div>
+  <div id="s-wl-am"      class="screen hidden"></div>
+  <div id="s-wl-lcm"     class="screen hidden"></div>
+  <div id="s-drill-inv"  class="screen hidden"></div>
+  <div id="s-drill-perf" class="screen hidden"></div>
+  <div id="s-drill-spares"class="screen hidden"></div>
+  <div id="s-drill-am"   class="screen hidden"></div>
+  <div id="s-drill-lcm"  class="screen hidden"></div>
+  <div id="s-cfg"        class="screen hidden"></div>
+</div>
+<script>
+// ── GLOBAL STATE ─────────────────────────────────────────────────
+var isMgmt = true;
+var CTX = { line:'CCL', system:'Rolling Stock', status:'r', score:92,
+  pto:'SMRT', fy:'FY2026', budget:412, spent:46, tranche:280,
+  pmPct:68, owCount:312, rework:18, manpower:82,
+  condScore:32, remainLife:12, sparesSupport:35 };
 
-Your job is to first do current web research, then create a specific, practical, route-efficient itinerary for my family trip to Jeju.
+var LINES = ['NSL','EWL','NEL','CCL','DTL','TEL','BPLRT','SPLRT'];
+var SYSTEMS = ['Rolling Stock','Signalling','Power','Civil','Comms'];
+var PTOS = {NSL:'SMRT',EWL:'SMRT',NEL:'SBST',CCL:'SMRT',DTL:'SBST',TEL:'SMRT',BPLRT:'SMRT',SPLRT:'SBST'};
 
-Important
-I do not want a generic itinerary.
+// Risk grid data [line][system] = status
+var RISK_GRID = [
+  ['a','g','a','g','g'],['g','a','g','g','g'],['g','g','g','a','g'],
+  ['r','a','g','g','a'],['g','g','a','g','g'],['g','g','g','g','g'],
+  ['r','r','a','g','g'],['a','g','g','a','g']
+];
+var RENEW_GRID = [
+  ['d','p','m','m','p'],['p','m','m','p','m'],['m','p','p','d','m'],
+  ['d','d','p','m','p'],['m','p','m','m','p'],['m','m','p','p','m'],
+  ['d','d','d','m','p'],['p','m','m','d','m']
+];
+var OPS_GRID = [
+  ['g','a','g','g','a'],['g','g','g','a','g'],['g','g','a','g','g'],
+  ['r','r','a','a','r'],['g','a','g','g','g'],['g','g','g','g','g'],
+  ['r','r','r','a','r'],['a','g','g','a','g']
+];
 
-Do not give vague suggestions like:
+// Dynamic data generators based on context
+function scoreForStatus(st) {
+  if (st === 'r' || st === 'd') return 75 + Math.floor(Math.random()*20) + 5;
+  if (st === 'a' || st === 'p') return 50 + Math.floor(Math.random()*20);
+  return 15 + Math.floor(Math.random()*25);
+}
+function condForStatus(st) {
+  if (st === 'r' || st === 'd') return 20 + Math.floor(Math.random()*20);
+  if (st === 'a' || st === 'p') return 45 + Math.floor(Math.random()*20);
+  return 70 + Math.floor(Math.random()*25);
+}
+function pmForStatus(st) {
+  if (st === 'r') return 60 + Math.floor(Math.random()*15);
+  if (st === 'a') return 80 + Math.floor(Math.random()*10);
+  return 93 + Math.floor(Math.random()*5);
+}
 
-“have lunch nearby”
-“eat at a local restaurant”
-“explore the area”
-“shop in Jeju City”
-I want a plan that is specific enough to use directly.
+// ── NAVIGATION ────────────────────────────────────────────────────
+function go(id) {
+  document.querySelectorAll('.screen').forEach(function(s){ s.classList.add('hidden'); });
+  document.getElementById('s-' + id).classList.remove('hidden');
+  window.scrollTo(0,0);
+}
 
-For every day, I want:
+function setCtx(line, system, status) {
+  CTX.line = line; CTX.system = system; CTX.status = status;
+  CTX.score = scoreForStatus(status);
+  CTX.pto = PTOS[line] || 'SMRT';
+  CTX.condScore = condForStatus(status);
+  CTX.pmPct = pmForStatus(status);
+  CTX.rework = status === 'r' ? 15+Math.floor(Math.random()*8) : status === 'a' ? 6+Math.floor(Math.random()*5) : 2+Math.floor(Math.random()*3);
+  CTX.owCount = status === 'r' ? 200+Math.floor(Math.random()*150) : status === 'a' ? 60+Math.floor(Math.random()*60) : 10+Math.floor(Math.random()*30);
+  CTX.manpower = status === 'r' ? 70+Math.floor(Math.random()*12) : status === 'a' ? 82+Math.floor(Math.random()*8) : 92+Math.floor(Math.random()*6);
+  CTX.remainLife = status === 'r' ? 5+Math.floor(Math.random()*15) : status === 'a' ? 25+Math.floor(Math.random()*20) : 55+Math.floor(Math.random()*30);
+  CTX.sparesSupport = status === 'r' ? 20+Math.floor(Math.random()*20) : status === 'a' ? 45+Math.floor(Math.random()*20) : 75+Math.floor(Math.random()*20);
+}
 
-clear activity planning
-route logic
-estimated drive times
-café/rest buffers
-meal area for lunch and dinner
-2–3 restaurant choices for each meal
-explanation of why those restaurant choices fit that day’s route
-If you are uncertain about a restaurant, say so clearly and provide alternatives.
+function clickRisk(li, ci) {
+  var st = RISK_GRID[li][ci];
+  setCtx(LINES[li], SYSTEMS[ci], st);
+  buildDrillRisk(); go('drill-risk');
+}
+function clickRenew(li, ci) {
+  var st = RENEW_GRID[li][ci];
+  setCtx(LINES[li], SYSTEMS[ci], st);
+  buildDrillRenew(); go('drill-renew');
+}
+function clickOps(li, ci) {
+  var st = OPS_GRID[li][ci];
+  setCtx(LINES[li], SYSTEMS[ci], st);
+  buildDrillOps(); go('drill-ops');
+}
 
-Trip details
-Destination: Jeju, South Korea
-Travel dates: 14 Oct to 20 Oct
-Arrival: 14 Oct, 9:00 AM at Jeju Airport
-Rental car pickup: around 10:30 AM
-Departure: 20 Oct, 7:40 PM
-Travel group:
-me
-my wife
-my 3-year-old son
-my mother-in-law
-helper
-Transport: self-drive SUV
-Accommodation: Airbnb
-I will book the Airbnb myself, so I need you to recommend the best areas to stay
-I am open to 1 base or 2 bases
-Please optimize for the whole island
-Travel style
-Pace: medium
-Activity mix: 60% child-focused, 40% adult-focused
-Avoid long hikes
-We are okay with 1 to 1.5 hours driving sometimes, but not every day
-Outdoor playgrounds should preferably be planned when it is less hot / less sunny
-My son may nap in the car or at a café, so include intentional café/rest stops
-The itinerary should be practical, comfortable, and not too rushed
-Must-have interests
-Tangerine farm
-Farm / animal experience
-Good playgrounds or child-friendly outdoor areas
-Black pork
-Café stops
-Adult interests:
-shopping for baby/kids items
-skincare/cosmetics
-clothes
-affordable / value-for-money shopping
-Food requirements
-No dietary restrictions
-Food should be good, popular, well-rated, and practical for the route
-I want restaurants that are actually worth going to
-If a place is famous but inconvenient, overrated, or likely to involve long queues, mention that
-Prioritize family-practical options where possible
-Step 1: Research first
-Use current web research to identify and shortlist:
+function toggleMode(fromScreen) {
+  isMgmt = !isMgmt;
+  if (!isMgmt) {
+    // Map management screen to relevant working level
+    var map = {
+      'mgmt-risk':'wl-spares','mgmt-renew':'wl-am','mgmt-ops':'wl-perf',
+      'drill-risk':'wl-spares','drill-renew':'wl-am','drill-ops':'wl-perf'
+    };
+    var dest = map[fromScreen] || 'wl-home';
+    buildWL(dest); go(dest);
+  } else {
+    // Map working level back to management
+    var map2 = {
+      'wl-spares':'mgmt-risk','wl-am':'mgmt-renew','wl-perf':'mgmt-ops',
+      'drill-spares':'mgmt-risk','drill-am':'mgmt-renew','drill-perf':'mgmt-ops'
+    };
+    var dest2 = map2[fromScreen] || 'mgmt-risk';
+    buildMgmt(dest2); go(dest2);
+  }
+}
 
-Best areas in Jeju to stay
-Whether 1 base or 2 bases is better
-Best tangerine farm options in mid-October
-Good farm / animal experiences
-Good playgrounds / child-friendly parks / family attractions
-Good shopping areas for:
-baby/kids items
-skincare/cosmetics
-clothes
-affordable shopping
-Good cafés that work well as rest stops
-Good black pork restaurants and other strong meal areas
-Good rainy-day alternatives
-Which attractions or restaurants need advance booking
-Estimated driving times between key regions
-Any places that are popular online but may be overrated, inconvenient, too crowded, too adult-oriented, or not ideal for this family trip
-For shortlisted places, explain briefly:
+// ── SHARED BUILDERS ───────────────────────────────────────────────
+function makeNav(crumbs, sid) {
+  var isOps = !isMgmt;
+  var bc = '<span class="bc-lnk" onclick="go(\'olive\')">OLIVE</span><span class="bc-sep"> › </span>';
+  for (var i=0; i<crumbs.length; i++) {
+    if (i < crumbs.length-1) bc += '<span class="bc-lnk" onclick="buildAndGo(\''+crumbs[i].s+'\')">'+crumbs[i].l+'</span><span class="bc-sep"> › </span>';
+    else bc += '<span class="bc-cur">'+crumbs[i].l+'</span>';
+  }
+  return '<div class="rnav">'
+    +'<span class="rlogo"><span style="color:#f1f5f9;">RAIL</span><span style="color:#f59e0b;">ADM</span></span>'
+    +'<div class="bc-wrap">'+bc+'</div>'
+    +'<div class="tog-wrap">'
+    +'<span class="tog-lbl '+(isOps?'':'on')+'">Management</span>'
+    +'<div class="tog '+(isOps?'ops':'')+'" onclick="toggleMode(\''+sid+'\')"><div class="tog-dot '+(isOps?'r':'')+'"></div></div>'
+    +'<span class="tog-lbl '+(isOps?'on':'')+'">Operations</span>'
+    +'</div></div>';
+}
 
-why they fit this trip
-whether they are best for child / adult / mixed
-whether they are seasonal
-whether they are worth the detour
-Step 2: Recommend the stay strategy
-Compare:
+function buildAndGo(sid) {
+  buildMgmt(sid); buildWL(sid);
+  go(sid);
+}
 
-Option A: 1 base
-Option B: 2 bases
-Then recommend the better option based on:
+function makeSB(act, isOpsMode) {
+  var mgmtItems = [
+    {id:'mgmt-risk', l:'Asset risk monitor'},
+    {id:'mgmt-renew', l:'Renewal intelligence'},
+    {id:'mgmt-ops', l:'Operator performance'}
+  ];
+  var wlItems = [
+    {id:'wl-inv', l:'Asset inventory'},
+    {id:'wl-perf', l:'Performance analysis'},
+    {id:'wl-spares', l:'Spares & resources'},
+    {id:'wl-am', l:'Asset mgmt & renewal'},
+    {id:'wl-lcm', l:'Life cycle mgmt'}
+  ];
+  var cls = isOpsMode ? 'rsb rsb-ops' : 'rsb';
+  var h = '<div class="'+cls+'">';
+  if (!isOpsMode) {
+    h += '<div class="rsb-sec">Intelligence</div>';
+    mgmtItems.forEach(function(it) {
+      h += '<div class="rsb-i '+(act===it.id?'on':'')+'" onclick="buildMgmt(\''+it.id+'\');go(\''+it.id+'\')">'+it.l+'</div>';
+    });
+  }
+  h += '<div class="rsb-sec">Working Level</div>';
+  wlItems.forEach(function(it) {
+    h += '<div class="rsb-i '+(act===it.id?(isOpsMode?'on-ops':'on'):'')+'" onclick="buildWL(\''+it.id+'\');go(\''+it.id+'\')">'+it.l+'</div>';
+  });
+  h += '<div style="padding:8px 16px;border-top:1px solid #334155;margin-top:12px;">'
+    +'<div class="rsb-i '+(act==='cfg'?'on':'')+'" onclick="buildCfg();go(\'cfg\')">&#9881; Configure scores</div>'
+    +'</div></div>';
+  return h;
+}
 
-route efficiency
-family comfort
-reduced backtracking
-practicality for day 1 and day 7
-food and shopping convenience
-suitability for a 3-year-old
-If recommending 2 bases, tell me:
+function makeTLGrid(gridData, clickFn, colHeaders, statusMap) {
+  var gt = '<table class="tl-tbl"><thead><tr><th class="lh">Rail Line</th>';
+  colHeaders.forEach(function(c){ gt += '<th>'+c+'</th>'; });
+  gt += '</tr></thead><tbody>';
+  LINES.forEach(function(line, li) {
+    gt += '<tr><td class="ll">'+line+'</td>';
+    gridData[li].forEach(function(c, ci) {
+      var sm = statusMap[c];
+      gt += '<td><div class="tl tl-'+sm.tc+'" onclick="'+clickFn+'('+li+','+ci+')">'
+        +'<div class="dot dot-'+sm.tc+'"></div>'+sm.lbl
+        +'<div class="tip">'+line+' — '+colHeaders[ci]+'\n'+PTOS[line]+'\n'+sm.tip+'</div>'
+        +'</div></td>';
+    });
+    gt += '</tr>';
+  });
+  return gt + '</tbody></table>';
+}
 
-which 2 areas
-how many nights in each
-what kind of days should be planned from each base
-pros and cons of each area
-Also give me the top Airbnb search areas I should look at manually.
+function makeBars(data, height) {
+  height = height || 110;
+  return data.map(function(d) {
+    var h = Math.max(4, Math.round(d[1]/d[3]*height));
+    return '<div class="bi"><span class="b-val">'+d[4]+'</span>'
+      +'<div class="bar" style="height:'+h+'px;background:'+d[2]+';"><div class="btip">'+d[0]+'\n'+d[5]+'</div></div>'
+      +'<span class="b-lbl">'+d[0]+'</span></div>';
+  }).join('');
+}
 
-Step 3: Build the itinerary
-Create a full itinerary from 14 Oct to 20 Oct.
+function colForVal(v, goodHigh) {
+  if (goodHigh) return v >= 90 ? '#4ade80' : v >= 75 ? '#fbbf24' : '#f87171';
+  return v <= 20 ? '#4ade80' : v <= 40 ? '#fbbf24' : '#f87171';
+}
 
-For each day, include:
+function pBar(pct, col) {
+  return '<div class="prog-wrap"><div class="prog-fill" style="width:'+pct+'%;background:'+col+';"></div></div>';
+}
 
-Main region/zone for the day
-Morning activity
-Lunch meal area
-Afternoon activity
-Café / rest / nap buffer
-Dinner meal area
-Evening suggestion if useful
-Estimated driving times between stops
-Whether booking is needed
-Why the route sequence makes sense
-Please optimize by geographic cluster and avoid unnecessary backtracking.
+function statusColor(s) {
+  return s==='r'||s==='d' ? '#f87171' : s==='a'||s==='p' ? '#fbbf24' : '#4ade80';
+}
+function statusBdg(s) {
+  return s==='r'||s==='d' ? 'bd-r' : s==='a'||s==='p' ? 'bd-a' : 'bd-g';
+}
+function statusLabel(s) {
+  var m={r:'CRITICAL',a:'HIGH',g:'NORMAL',d:'OVERDUE',p:'DUE SOON',m:'ON TRACK'};
+  return m[s]||s;
+}
 
-Keep the number of major stops realistic for a family with a 3-year-old.
+// ── OLIVE HOME ────────────────────────────────────────────────────
+function buildOlive() {
+  document.getElementById('s-olive').innerHTML =
+  '<div style="background:#f8fafc;min-height:100vh;display:flex;flex-direction:column;">'
+  +'<div class="ol-nav"><span class="ol-logo">OLIVE <span style="font-size:10px;font-weight:400;color:#94a3b8;">Data United, Insights Ignited</span></span>'
+  +'<span class="ol-link">Administration</span><span class="ol-link">System Config</span><span class="ol-link">Data MGMT</span><span class="ol-link">User Tracking</span>'
+  +'<span style="margin-left:auto;font-size:12px;color:#94a3b8;">Steven Chan &#9662;</span></div>'
+  +'<div class="ol-body"><div class="ol-sb">'
+  +'<div class="ol-si on">&#127968; Homepage</div><div class="ol-si">&#9881; Administration</div>'
+  +'<div class="ol-si">&#128190; Data MGMT</div><div class="ol-si">&#128100; User Tracking</div>'
+  +'<div class="ol-si">&#128202; Dashboard</div></div>'
+  +'<div class="ol-main"><p class="ol-h1">Welcome back, Steven Chan</p>'
+  +'<p class="ol-h2">Choose a shortcut below or check the notice board for updates.</p>'
+  +'<div style="display:flex;gap:24px;">'
+  +'<div style="flex:1;"><div class="ol-sec">Key Dashboards</div><div class="ol-tiles">'
+  +'<div class="ol-tile"><div class="ol-tile-ic">&#128202;</div><div class="ol-tile-lb">F&amp;D Dashboard</div></div>'
+  +'<div class="ol-tile"><div class="ol-tile-ic">&#128193;</div><div class="ol-tile-lb">Project Dashboard</div></div>'
+  +'<div class="ol-tile"><div class="ol-tile-ic">&#128200;</div><div class="ol-tile-lb">KPI Dashboard</div></div>'
+  +'<div class="ol-tile star" onclick="isMgmt=true;buildHome();go(\'home\')" style="cursor:pointer;">'
+  +'<div style="font-size:14px;font-weight:800;margin-bottom:4px;"><span style="color:#1e3a5f;">RAIL</span><span style="color:#f59e0b;">ADM</span></div>'
+  +'<div class="ol-tile-lb" style="color:#92400e;">Asset Intelligence</div></div>'
+  +'<div class="ol-tile"><div class="ol-tile-ic">&#128506;</div><div class="ol-tile-lb">ArcGIS</div></div>'
+  +'<div class="ol-tile"><div class="ol-tile-ic">&#10084;&#65039;</div><div class="ol-tile-lb">Health Report</div></div>'
+  +'</div><div class="ol-sec">Recently Visited</div><div class="ol-tiles">'
+  +'<div class="ol-tile"><div class="ol-tile-ic">&#128228;</div><div class="ol-tile-lb">F&amp;D Data Import</div></div>'
+  +'<div class="ol-tile"><div class="ol-tile-ic">&#9888;&#65039;</div><div class="ol-tile-lb">Fault Resource</div></div>'
+  +'<div class="ol-tile"><div class="ol-tile-ic">&#128100;</div><div class="ol-tile-lb">User MGMT</div></div>'
+  +'</div></div>'
+  +'<div class="ol-notice"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">'
+  +'<div style="font-size:13px;font-weight:600;color:#1e293b;">Notice</div>'
+  +'<div style="background:#1d4ed8;color:#fff;font-size:10px;padding:3px 8px;border-radius:4px;">Ticket Centre</div>'
+  +'</div><div class="srow">'
+  +'<div class="sbox"><div class="snum" style="color:#16a34a;">5</div><div class="slbl">Completed</div></div>'
+  +'<div class="sbox"><div class="snum" style="color:#2563eb;">36</div><div class="slbl">Updated</div></div>'
+  +'<div class="sbox"><div class="snum" style="color:#2563eb;">36</div><div class="slbl">Created</div></div>'
+  +'<div class="sbox"><div class="snum" style="color:#d97706;">2</div><div class="slbl">Due Soon</div></div>'
+  +'</div><div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;">'
+  +'<span style="background:#eff6ff;color:#1d4ed8;font-size:10px;padding:2px 8px;border-radius:10px;">To Do 27</span>'
+  +'<span style="background:#fef3c7;color:#92400e;font-size:10px;padding:2px 8px;border-radius:10px;">In Progress 4</span>'
+  +'<span style="background:#f0fdf4;color:#166534;font-size:10px;padding:2px 8px;border-radius:10px;">Done 5</span>'
+  +'</div><div style="font-size:11px;color:#475569;font-weight:500;margin-bottom:8px;">Recent Activity</div>'
+  +'<div style="font-size:11px;color:#94a3b8;margin-bottom:4px;">Yesterday — <span style="color:#3b82f6;">TASK-2026-046: Enhancement 1...</span></div>'
+  +'<div style="font-size:11px;color:#94a3b8;">Yesterday — <span style="color:#3b82f6;">TASK-2026-048: Enhancement 3...</span></div>'
+  +'</div></div></div></div></div>';
+}
 
-Step 4: Meal planning requirement
-This is very important.
+// ── RAILADM HOME ──────────────────────────────────────────────────
+function buildHome() {
+  var isOps = !isMgmt;
+  var mgmtContent = '<div class="hs"><div class="hs-t">Management intelligence — Layer 2 &amp; 3</div><div class="g3">'
+  +'<div class="hc al" onclick="buildMgmt(\'mgmt-risk\');go(\'mgmt-risk\')">'
+  +'<div class="hc-t">&#9888; Asset risk monitor</div>'
+  +'<div class="hc-d">Integrated: obsolescence × spares × fault rate × condition × criticality</div>'
+  +'<div class="hc-s red">8 CRITICAL</div><div class="hc-l">View risk grid →</div></div>'
+  +'<div class="hc wn" onclick="buildMgmt(\'mgmt-renew\');go(\'mgmt-renew\')">'
+  +'<div class="hc-t">&#128197; Renewal intelligence</div>'
+  +'<div class="hc-d">Renewal pipeline: condition × obsolescence × remaining life × funding</div>'
+  +'<div class="hc-s amb">11 OVERDUE</div><div class="hc-l">View renewals →</div></div>'
+  +'<div class="hc ok" onclick="buildMgmt(\'mgmt-ops\');go(\'mgmt-ops\')">'
+  +'<div class="hc-t">&#128101; Operator performance</div>'
+  +'<div class="hc-d">Maintenance adequacy, audit compliance, manpower, rework rate</div>'
+  +'<div class="hc-s red">3 NON-COMPLIANT</div><div class="hc-l">View performance →</div></div>'
+  +'</div></div>'
+  +'<div class="hs"><div class="hs-t">Working level — Layer 1 signals</div><div class="g5">'
+  +'<div class="hc" onclick="buildWL(\'wl-inv\');go(\'wl-inv\')"><div class="hc-t">Asset inventory</div><div style="font-size:10px;color:#64748b;">Hierarchy, IDs, population, condition, age profile</div></div>'
+  +'<div class="hc" onclick="buildWL(\'wl-perf\');go(\'wl-perf\')"><div class="hc-t">Performance analysis</div><div style="font-size:10px;color:#64748b;">SSFTAR, F&amp;D, fault trending, MKBF, delays</div></div>'
+  +'<div class="hc" onclick="buildWL(\'wl-spares\');go(\'wl-spares\')"><div class="hc-t">Spares &amp; resources</div><div style="font-size:10px;color:#64748b;">Critical spares, stock levels, lead times, utilisation</div></div>'
+  +'<div class="hc" onclick="buildWL(\'wl-am\');go(\'wl-am\')"><div class="hc-t">Asset mgmt &amp; renewal</div><div style="font-size:10px;color:#64748b;">Obsolescence, renewal planning, MLFC, programme</div></div>'
+  +'<div class="hc" onclick="buildWL(\'wl-lcm\');go(\'wl-lcm\')"><div class="hc-t">Life cycle mgmt</div><div style="font-size:10px;color:#64748b;">LCC, MTBF design vs actual, useful life tracking</div></div>'
+  +'</div></div>';
 
-For every lunch and every dinner, do not give only one restaurant and do not stay vague.
+  var opsContent = '<div class="hs"><div class="hs-t">Working level dashboards</div><div class="g5">'
+  +'<div class="oc" onclick="buildWL(\'wl-inv\');go(\'wl-inv\')"><div style="font-size:20px;">&#128230;</div><div class="oc-t">Asset Inventory</div></div>'
+  +'<div class="oc" onclick="buildWL(\'wl-perf\');go(\'wl-perf\')"><div style="font-size:20px;">&#128202;</div><div class="oc-t">Performance Analysis</div></div>'
+  +'<div class="oc" onclick="buildWL(\'wl-spares\');go(\'wl-spares\')"><div style="font-size:20px;">&#128230;</div><div class="oc-t">Spares &amp; Resources</div></div>'
+  +'<div class="oc" onclick="buildWL(\'wl-am\');go(\'wl-am\')"><div style="font-size:20px;">&#128260;</div><div class="oc-t">Asset Mgmt &amp; Renewal</div></div>'
+  +'<div class="oc" onclick="buildWL(\'wl-lcm\');go(\'wl-lcm\')"><div style="font-size:20px;">&#9851;</div><div class="oc-t">Life Cycle Mgmt</div></div>'
+  +'</div></div>';
 
-Instead, give:
+  document.getElementById('s-home').innerHTML = '<div class="dk">'
+  +makeNav([{l:'RailADM Home',s:'home'}],'home')
+  +'<div style="display:flex;flex:1;">'+makeSB('',isOps)+'<div class="rmain">'
+  +'<div class="ptitle">RailADM — Asset Intelligence Platform</div>'
+  +'<div class="psub">RAOM integrated asset management · All rail lines · '+(isOps?'Operations':'Management')+' view</div>'
+  +(isOps ? opsContent : mgmtContent)
+  +'</div></div></div>';
+}
 
-meal area
-2–3 restaurant choices
-what each restaurant is known for
-why they fit the route
-whether they are popular / well-rated / family-practical
-any caution such as queue, limited parking, or reservation need
-Example format:
+// ── MANAGEMENT SCREENS ────────────────────────────────────────────
+function buildMgmt(sid) {
+  if (sid === 'mgmt-risk') buildMgmtRisk();
+  else if (sid === 'mgmt-renew') buildMgmtRenew();
+  else if (sid === 'mgmt-ops') buildMgmtOps();
+}
 
-Lunch area: Seogwipo downtown
-Options:
+function buildMgmtRisk() {
+  var sm = {
+    r:{tc:'r',lbl:'CRITICAL',tip:'Obsolescence HIGH · Spares CRITICAL\nClick to drill down'},
+    a:{tc:'a',lbl:'HIGH',tip:'Signals elevated · Action needed\nClick to drill down'},
+    g:{tc:'g',lbl:'NORMAL',tip:'All signals within threshold\nClick to drill down'}
+  };
+  var grid = makeTLGrid(RISK_GRID,'clickRisk',SYSTEMS,sm);
+  var b1 = makeBars([
+    ['2024',50,50,'#f87171','50','EOL: 50 assets — action overdue'],
+    ['2025',21,50,'#f87171','21','EOL: 21 assets — immediate action'],
+    ['2026',15,50,'#fbbf24','15','EOL: 15 assets — plan now'],
+    ['2027',8,50,'#fbbf24','8','EOS: 8 assets — monitor'],
+    ['2028',6,50,'#4ade80','6','Planned renewal cycle'],
+    ['2029',4,50,'#4ade80','4','Planned renewal cycle'],
+    ['2030',3,50,'#4ade80','3','Normal programme']
+  ]);
+  var b2 = makeBars([
+    ['Oct',38,38,'#4ade80','38','Risk: 38/100 — Normal'],
+    ['Nov',45,92,'#4ade80','45','Risk: 45/100 — Normal'],
+    ['Dec',52,92,'#fbbf24','52','Risk: 52/100 — Elevated'],
+    ['Jan',61,92,'#fbbf24','61','Risk: 61/100 — High'],
+    ['Feb',74,92,'#fbbf24','74','Risk: 74/100 — High'],
+    ['Mar',83,92,'#f87171','83','Risk: 83/100 — Critical'],
+    ['Apr',88,92,'#f87171','88','Risk: 88/100 — Critical'],
+    ['May',92,92,'#f87171','92','Risk: 92/100 — Critical\nObs:37 Spares:32 Crit:23']
+  ]);
+  document.getElementById('s-mgmt-risk').innerHTML = '<div class="dk">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Asset Risk Monitor',s:'mgmt-risk'}],'mgmt-risk')
+  +'<div style="display:flex;flex:1;">'+makeSB('mgmt-risk',false)+'<div class="rmain">'
+  +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">'
+  +'<div class="ptitle">Asset Risk Monitor</div>'
+  +'<div style="display:flex;gap:8px;">'
+  +'<select style="font-size:11px;padding:4px 8px;"><option>All Lines</option>'
+  +LINES.map(function(l){return '<option>'+l+'</option>';}).join('')+'</select>'
+  +'<select style="font-size:11px;padding:4px 8px;"><option>All Systems</option>'
+  +SYSTEMS.map(function(s){return '<option>'+s+'</option>';}).join('')+'</select>'
+  +'</div></div>'
+  +'<div class="psub">Integrated signal intelligence: obsolescence × spares × fault × condition — Layer 2 &amp; 3 · Hover cells for detail · Click to drill down</div>'
+  +'<div class="g4" style="margin-bottom:20px;">'
+  +'<div class="mc"><div class="mv red">8</div><div class="ml">Critical — immediate action</div><div class="bdg bd-r">Risk score ≥80</div></div>'
+  +'<div class="mc"><div class="mv amb">14</div><div class="ml">High — plan within 3 months</div><div class="bdg bd-a">Risk score 60–79</div></div>'
+  +'<div class="mc"><div class="mv blu">23</div><div class="ml">Medium — monitor closely</div><div class="bdg bd-b">Risk score 40–59</div></div>'
+  +'<div class="mc"><div class="mv grn">42</div><div class="ml">Normal — no action needed</div><div class="bdg bd-g">Risk score &lt;40</div></div>'
+  +'</div>'
+  +'<div class="tl-wrap"><div class="tl-title">Risk status by rail line × system — hover for detail · click any cell to drill down</div>'+grid+'</div>'
+  +'<div class="g3" style="margin-bottom:20px;">'
+  +'<div class="ac crit"><div class="ac-urg red">CRITICAL — ACT NOW</div><div class="ac-asset">CCL Rolling Stock — Brakes</div><div class="ac-desc">Obs HIGH (7 assets EOL &lt;6m) · Zero spares stock for 3 components · Risk: 92/100</div><div class="ac-btns"><button class="btn btn-d" onclick="setCtx(\'CCL\',\'Rolling Stock\',\'r\');buildModalRenew();go(\'modal-renew\')">Initiate renewal</button><button class="btn btn-s" onclick="setCtx(\'CCL\',\'Rolling Stock\',\'r\');buildDrillRisk();go(\'drill-risk\')">View detail</button></div></div>'
+  +'<div class="ac crit"><div class="ac-urg red">CRITICAL — ACT NOW</div><div class="ac-asset">BPLRT Rolling Stock — TIMS</div><div class="ac-desc">OEM support ended · No alt supplier · Spares critically low · Risk: 88/100</div><div class="ac-btns"><button class="btn btn-d" onclick="setCtx(\'BPLRT\',\'Rolling Stock\',\'r\');buildModalRenew();go(\'modal-renew\')">Initiate renewal</button><button class="btn btn-s" onclick="setCtx(\'BPLRT\',\'Rolling Stock\',\'r\');buildDrillRisk();go(\'drill-risk\')">View detail</button></div></div>'
+  +'<div class="ac hi"><div class="ac-urg amb">HIGH — PLAN WITHIN 3 MONTHS</div><div class="ac-asset">NSL Rolling Stock — HVAC</div><div class="ac-desc">EOS Dec 2026 · Lead time 18 months · LTB deadline Jun 2025 · Risk: 74/100</div><div class="ac-btns"><button class="btn btn-w" onclick="setCtx(\'NSL\',\'Rolling Stock\',\'a\');buildModalRenew();go(\'modal-renew\')">Flag LTB</button><button class="btn btn-s" onclick="setCtx(\'NSL\',\'Rolling Stock\',\'a\');buildDrillRisk();go(\'drill-risk\')">View detail</button></div></div>'
+  +'</div>'
+  +'<div class="g2">'
+  +'<div class="ch"><div class="ch-t">Obsolescence count by EOL/EOS year</div><div class="bar-grp">'+b1+'</div></div>'
+  +'<div class="ch"><div class="ch-t">Risk score trend — CCL Rolling Stock</div><div class="bar-grp">'+b2+'</div></div>'
+  +'</div></div></div></div>';
+}
 
-Restaurant A – black pork, popular, 8 min from attraction, good for families
-Restaurant B – seafood noodle, well-rated, easier parking
-Restaurant C – Korean set meal, less famous but convenient backup
-Do this for every lunch and dinner of every day.
+function buildMgmtRenew() {
+  var sm = {
+    d:{tc:'r',lbl:'OVERDUE',tip:'Renewal execution delayed\nEscalation required'},
+    p:{tc:'a',lbl:'DUE SOON',tip:'Renewal due within 12 months\nPlanning in progress'},
+    m:{tc:'g',lbl:'ON TRACK',tip:'Within programme schedule\nNo action required'}
+  };
+  var grid = makeTLGrid(RENEW_GRID,'clickRenew',SYSTEMS,sm);
+  var fyBars = makeBars([
+    ['FY25',45,312,'#4ade80','S$45M','FY25 spend: S$45M — normal'],
+    ['FY26',312,312,'#f87171','S$312M','FY26 spend: S$312M — PEAK YEAR'],
+    ['FY27',287,312,'#f87171','S$287M','FY27 spend: S$287M — peak year'],
+    ['FY28',198,312,'#fbbf24','S$198M','FY28 spend: S$198M — elevated'],
+    ['FY29',145,312,'#fbbf24','S$145M','FY29 spend: S$145M — elevated'],
+    ['FY30',98,312,'#4ade80','S$98M','FY30 spend: S$98M — normal'],
+    ['FY31',76,312,'#4ade80','S$76M','FY31 spend: S$76M — normal']
+  ]);
+  document.getElementById('s-mgmt-renew').innerHTML = '<div class="dk">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Renewal Intelligence',s:'mgmt-renew'}],'mgmt-renew')
+  +'<div style="display:flex;flex:1;">'+makeSB('mgmt-renew',false)+'<div class="rmain">'
+  +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">'
+  +'<div class="ptitle">Renewal Intelligence</div>'
+  +'<div style="display:flex;gap:8px;">'
+  +'<select style="font-size:11px;padding:4px 8px;"><option>All Lines</option>'
+  +LINES.map(function(l){return '<option>'+l+'</option>';}).join('')+'</select>'
+  +'<select style="font-size:11px;padding:4px 8px;"><option>All Systems</option>'
+  +SYSTEMS.map(function(s){return '<option>'+s+'</option>';}).join('')+'</select>'
+  +'<select style="font-size:11px;padding:4px 8px;"><option>FY2025–FY2032</option><option>FY2025–FY2027</option><option>FY2028–FY2032</option></select>'
+  +'</div></div>'
+  +'<div class="psub">Renewal pipeline: condition × obsolescence × remaining life × funding — Layer 2 &amp; 3 · Click any cell to drill down</div>'
+  +'<div class="g4" style="margin-bottom:20px;">'
+  +'<div class="mc"><div class="mv red">11</div><div class="ml">Renewals overdue</div><div class="bdg bd-r">Execution delayed</div></div>'
+  +'<div class="mc"><div class="mv amb">23</div><div class="ml">Due within 12 months</div><div class="bdg bd-a">Planning in progress</div></div>'
+  +'<div class="mc"><div class="mv blu">S$744M</div><div class="ml">FY26–27 committed spend</div><div class="bdg bd-b">Peak renewal years</div></div>'
+  +'<div class="mc"><div class="mv grn">68%</div><div class="ml">Budget utilisation YTD</div><div class="bdg bd-g">Within approved BV</div></div>'
+  +'</div>'
+  +'<div class="tl-wrap"><div class="tl-title">Renewal status by rail line × system — hover for detail · click any cell to drill down</div>'+grid+'</div>'
+  +'<div class="g3" style="margin-bottom:20px;">'
+  +'<div class="ac crit"><div class="ac-urg red">OVERDUE — ESCALATE</div><div class="ac-asset">BPLRT Rolling Stock Renewal</div><div class="ac-desc">8 months delayed. Fleet age exceeds IUL. Replacement programme award pending. Risk of unplanned withdrawal.</div><div class="ac-btns"><button class="btn btn-d" onclick="setCtx(\'BPLRT\',\'Rolling Stock\',\'d\');buildModalFund();go(\'modal-fund\')">Approve funding</button><button class="btn btn-s" onclick="setCtx(\'BPLRT\',\'Rolling Stock\',\'d\');buildDrillRenew();go(\'drill-renew\')">View detail</button></div></div>'
+  +'<div class="ac crit"><div class="ac-urg red">OVERDUE — ESCALATE</div><div class="ac-asset">CCL Signalling Renewal</div><div class="ac-desc">CBTC upgrade delayed — site access constraints. Current system approaching EOS. No OEM extended support.</div><div class="ac-btns"><button class="btn btn-d" onclick="setCtx(\'CCL\',\'Signalling\',\'d\');buildModalFund();go(\'modal-fund\')">Approve funding</button><button class="btn btn-s" onclick="setCtx(\'CCL\',\'Signalling\',\'d\');buildDrillRenew();go(\'drill-renew\')">View detail</button></div></div>'
+  +'<div class="ac hi"><div class="ac-urg amb">DUE SOON — ACTION NEEDED</div><div class="ac-asset">NSL Rolling Stock — C151A Fleet</div><div class="ac-desc">IUL extension assessment due. Condition score declining. Spares supportability at risk. Award target FY2026 Q2.</div><div class="ac-btns"><button class="btn btn-w" onclick="setCtx(\'NSL\',\'Rolling Stock\',\'p\');buildDrillRenew();go(\'drill-renew\')">View renewal plan</button><button class="btn btn-s" onclick="setCtx(\'NSL\',\'Rolling Stock\',\'p\');buildDrillRenew();go(\'drill-renew\')">View detail</button></div></div>'
+  +'</div>'
+  +'<div class="g2">'
+  +'<div class="ch"><div class="ch-t">Projected renewal spend by FY (S$M)</div><div class="bar-grp">'+fyBars+'</div><div style="font-size:10px;color:#64748b;margin-top:8px;">Source: MLFC Dashboard / AMRP masterlist. Peak FY26–27 due to NSL/EWL and CCL SIG renewals.</div></div>'
+  +'<div class="ch"><div class="ch-t">Renewal pipeline by status</div>'
+  +'<div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">'
+  +'<div style="background:#1a1f2e;border-radius:6px;padding:12px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Overdue</span><span class="red">11 renewals</span></div>'+pBar(18,'#ef4444')+'</div>'
+  +'<div style="background:#1a1f2e;border-radius:6px;padding:12px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Due within 12 months</span><span class="amb">23 renewals</span></div>'+pBar(37,'#f59e0b')+'</div>'
+  +'<div style="background:#1a1f2e;border-radius:6px;padding:12px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>On track (planned)</span><span class="grn">28 renewals</span></div>'+pBar(45,'#22c55e')+'</div>'
+  +'</div></div></div>'
+  +'</div></div></div>';
+}
 
-Step 5: Time-blocked schedule
-After the narrative itinerary, provide a spreadsheet-style time-blocked schedule for each day.
+function buildMgmtOps() {
+  var sm = {
+    r:{tc:'r',lbl:'FAIL',tip:'Non-compliant — immediate action\nIssue observation notice'},
+    a:{tc:'a',lbl:'WATCH',tip:'Below target — follow up\nRequest corrective plan'},
+    g:{tc:'g',lbl:'PASS',tip:'Meeting KPI target\nContinue monitoring'}
+  };
+  var kpis = ['PM Completion','Overdue WOs','Audit Comply','Manpower','Rework Rate'];
+  var grid = makeTLGrid(OPS_GRID,'clickOps',kpis,sm);
+  var tBars = makeBars([
+    ['Oct',72,100,'#f87171','72%','Avg PM completion: 72%\nTarget: ≥95%'],
+    ['Nov',74,100,'#f87171','74%','Avg PM completion: 74%'],
+    ['Dec',76,100,'#fbbf24','76%','Avg PM completion: 76%'],
+    ['Jan',75,100,'#fbbf24','75%','Avg PM completion: 75%'],
+    ['Feb',78,100,'#fbbf24','78%','Avg PM completion: 78%'],
+    ['Mar',81,100,'#4ade80','81%','Avg PM completion: 81%'],
+    ['Apr',79,100,'#fbbf24','79%','Avg PM completion: 79%'],
+    ['May',77,100,'#fbbf24','77%','Avg PM completion: 77%\nTarget: ≥95%']
+  ]);
+  document.getElementById('s-mgmt-ops').innerHTML = '<div class="dk">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Operator Performance',s:'mgmt-ops'}],'mgmt-ops')
+  +'<div style="display:flex;flex:1;">'+makeSB('mgmt-ops',false)+'<div class="rmain">'
+  +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">'
+  +'<div class="ptitle">Operator Performance</div>'
+  +'<div style="display:flex;gap:8px;">'
+  +'<select style="font-size:11px;padding:4px 8px;"><option>All Lines</option>'
+  +LINES.map(function(l){return '<option>'+l+'</option>';}).join('')+'</select>'
+  +'<select style="font-size:11px;padding:4px 8px;"><option>Latest Month (May 2026)</option><option>Last Quarter</option><option>Last 6 Months</option></select>'
+  +'</div></div>'
+  +'<div class="psub">Maintenance adequacy × audit compliance × manpower × rework rate — Layer 2 &amp; 3 · Click any cell to drill down</div>'
+  +'<div class="g4" style="margin-bottom:20px;">'
+  +'<div class="mc"><div class="mv red">3</div><div class="ml">Lines non-compliant</div><div class="bdg bd-r">Immediate action</div></div>'
+  +'<div class="mc"><div class="mv amb">5</div><div class="ml">Lines under watch</div><div class="bdg bd-a">Below target</div></div>'
+  +'<div class="mc"><div class="mv red">77%</div><div class="ml">Avg PM completion</div><div class="bdg bd-r">Target: 95%</div></div>'
+  +'<div class="mc"><div class="mv amb">42</div><div class="ml">Audit findings &gt;30 days</div><div class="bdg bd-a">Follow up needed</div></div>'
+  +'</div>'
+  +'<div class="tl-wrap"><div class="tl-title">Operator performance by rail line × KPI — hover for detail · click any cell to drill down</div>'+grid+'</div>'
+  +'<div class="g3" style="margin-bottom:20px;">'
+  +'<div class="ac crit"><div class="ac-urg red">NON-COMPLIANT</div><div class="ac-asset">CCL (SMRT) — Multiple KPIs</div><div class="ac-desc">PM 68% (target 95%) · OWOs 312 (target &lt;50) · Rework 18% (target &lt;5%) · Manpower 82%</div><div class="ac-btns"><button class="btn btn-d" onclick="setCtx(\'CCL\',\'Rolling Stock\',\'r\');buildDrillOps();go(\'drill-ops\')">Trigger audit</button><button class="btn btn-s" onclick="setCtx(\'CCL\',\'Rolling Stock\',\'r\');buildDrillOps();go(\'drill-ops\')">View detail</button></div></div>'
+  +'<div class="ac crit"><div class="ac-urg red">NON-COMPLIANT</div><div class="ac-asset">BPLRT (SMRT) — Maintenance</div><div class="ac-desc">PM 61% (target 95%) · OWOs 187 · Manpower 71% — critically low. Linked to fleet age and complexity.</div><div class="ac-btns"><button class="btn btn-d" onclick="setCtx(\'BPLRT\',\'Rolling Stock\',\'r\');buildDrillOps();go(\'drill-ops\')">Issue obs notice</button><button class="btn btn-s" onclick="setCtx(\'BPLRT\',\'Rolling Stock\',\'r\');buildDrillOps();go(\'drill-ops\')">View detail</button></div></div>'
+  +'<div class="ac hi"><div class="ac-urg amb">WATCH — FOLLOW UP</div><div class="ac-asset">NSL (SMRT) — Overdue WOs</div><div class="ac-desc">PM 91% (near target) · OWOs increasing: 78 this month vs target &lt;50 · Rework 7% (target &lt;5%)</div><div class="ac-btns"><button class="btn btn-w" onclick="setCtx(\'NSL\',\'Rolling Stock\',\'a\');buildDrillOps();go(\'drill-ops\')">Request plan</button><button class="btn btn-s" onclick="setCtx(\'NSL\',\'Rolling Stock\',\'a\');buildDrillOps();go(\'drill-ops\')">View detail</button></div></div>'
+  +'</div>'
+  +'<div class="g2">'
+  +'<div class="ch"><div class="ch-t">Avg PM completion trend — all lines (%)</div><div class="bar-grp">'+tBars+'</div>'
+  +'<div style="font-size:10px;color:#64748b;margin-top:6px;">Licence requirement: ≥95% monthly. Data source: MPR — PM Details dataset.</div></div>'
+  +'<div class="ch"><div class="ch-t">Open audit findings by severity</div><div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">'
+  +'<div style="background:#1a1f2e;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Major (&gt;30 days open)</span><span class="red">18</span></div>'+pBar(43,'#ef4444')+'</div>'
+  +'<div style="background:#1a1f2e;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Minor (&gt;30 days open)</span><span class="amb">24</span></div>'+pBar(57,'#f59e0b')+'</div>'
+  +'<div style="background:#1a1f2e;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Closed this month</span><span class="grn">31</span></div>'+pBar(74,'#22c55e')+'</div>'
+  +'</div></div></div>'
+  +'</div></div></div>';
+}
 
-For example:
+// ── DRILL-DOWN SCREENS (dynamic) ──────────────────────────────────
+function buildDrillRisk() {
+  var line = CTX.line; var sys = CTX.system; var st = CTX.status;
+  var score = CTX.score; var cond = CTX.condScore;
+  var col = statusColor(st); var bdg = statusBdg(st); var lbl = statusLabel(st);
+  var obsVal = st==='r' ? 12 : st==='a' ? 5 : 1;
+  var sparesZero = st==='r' ? 3 : st==='a' ? 1 : 0;
+  var ltbStatus = st==='r' ? 'Passed' : st==='a' ? 'Jun 2025' : 'Dec 2026';
+  var subs = ['Brakes','Propulsion','HVAC','Doors','Suspension','Bogies'];
+  var sparesRows = subs.map(function(sub,i) {
+    var cur = st==='r' ? (i<2?0:i<4?1:2) : st==='a' ? (i<1?1:2+i) : 3+i;
+    var sfty = 2; var pct = Math.min(100,Math.round(cur/sfty*100));
+    var sc = pct===0?'#f87171':pct<100?'#fbbf24':'#4ade80';
+    var stlbl = pct===0?'ZERO STOCK':pct<100?'BELOW MIN':'OK';
+    var sbg = pct===0?'#450a0a':pct<100?'#451a03':'#052e16';
+    return '<tr><td>'+sub+'</td><td style="color:'+sc+';font-weight:600;">'+cur+'</td><td>'+sfty+'</td>'
+      +'<td><div class="sb-wrap"><div class="sb-fill" style="width:'+pct+'%;background:'+sc+';"></div></div></td>'
+      +'<td style="color:#94a3b8;">'+(st==='r'?'14–18 mo':st==='a'?'8–12 mo':'4–8 mo')+'</td>'
+      +'<td style="color:'+sc+';">'+ltbStatus+'</td>'
+      +'<td><span class="bdg" style="background:'+sbg+';color:'+sc+';">'+stlbl+'</span></td></tr>';
+  }).join('');
+  var obBars = [['Sub A',obsVal,12,'#f87171','Sub A — EOL in 6 months\nLast-time buy: passed'],
+    ['Sub B',Math.max(0,obsVal-2),12,'#fbbf24','Sub B — EOS declared\nInterim mitigation needed'],
+    ['Sub C',Math.max(0,obsVal-4),12,'#4ade80','Sub C — EOL 2028\nNo immediate action']].filter(function(d){return d[1]>=0;});
+  var obBarHtml = obBars.map(function(d){
+    return '<div class="bi"><span class="b-val">'+d[1]+'</span>'
+      +'<div class="bar" style="height:'+Math.max(4,Math.round(d[1]/12*90))+'px;background:'+d[3]+';"><div class="btip">'+d[4]+'</div></div>'
+      +'<span class="b-lbl">'+d[0]+'</span></div>';
+  }).join('');
 
-8:00 breakfast
-9:00 depart
-9:40 attraction 1
-11:45 lunch area + restaurant options
-1:15 café / rest / nap buffer
-2:30 attraction 2
-5:45 dinner area + restaurant options
-7:30 return to Airbnb
-The timing does not need to be exact to the minute, but it should be realistic.
+  document.getElementById('s-drill-risk').innerHTML = '<div class="dk">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Asset Risk Monitor',s:'mgmt-risk'},{l:line+' — '+sys,s:'drill-risk'}],'drill-risk')
+  +'<div style="display:flex;flex:1;">'+makeSB('mgmt-risk',false)+'<div class="rmain">'
+  +'<div class="ptitle">Risk Detail — '+line+' · '+sys+'</div>'
+  +'<div class="psub">Layer 2 risk intelligence · '+CTX.pto+' · Composite score from 3 signal dimensions · Hover charts for detail</div>'
+  +'<div style="display:grid;grid-template-columns:200px 1fr;gap:16px;margin-bottom:20px;">'
+  +'<div class="risk-box">'
+  +'<div class="rs-big" style="color:'+col+';">'+score+'</div>'
+  +'<div class="rs-lbl">Risk score / 100</div>'
+  +'<div class="bdg '+bdg+'" style="display:block;text-align:center;margin-bottom:16px;">'+lbl+'</div>'
+  +'<div class="rf"><div class="rf-lbl"><span>Obsolescence</span><span style="color:'+col+';">'+Math.round(score*.4)+'/40</span></div><div class="rf-track"><div class="rf-fill" style="width:'+Math.round(score*.4)/40*100+'%;background:'+col+';"></div></div></div>'
+  +'<div class="rf"><div class="rf-lbl"><span>Spares stock</span><span style="color:'+col+';">'+Math.round(score*.35)+'/35</span></div><div class="rf-track"><div class="rf-fill" style="width:'+Math.round(score*.35)/35*100+'%;background:#f97316;"></div></div></div>'
+  +'<div class="rf"><div class="rf-lbl"><span>Asset criticality</span><span style="color:'+col+';">'+Math.round(score*.25)+'/25</span></div><div class="rf-track"><div class="rf-fill" style="width:'+Math.round(score*.25)/25*100+'%;background:#fbbf24;"></div></div></div>'
+  +'<div style="font-size:10px;color:#7dd3fc;margin-top:12px;cursor:pointer;" onclick="buildCfg();go(\'cfg\')">Configure weights →</div>'
+  +'</div>'
+  +'<div>'
+  +'<div class="ch" style="margin-bottom:12px;"><div class="ch-t">Obsolescence — zero stock by subsystem</div><div class="bar-grp" style="height:90px;">'+obBarHtml+'</div></div>'
+  +'<div class="g4" style="gap:10px;">'
+  +'<div class="mc"><div class="mv" style="color:'+col+';">'+obsVal+'</div><div class="ml">Assets EOL &lt;12 months</div></div>'
+  +'<div class="mc"><div class="mv" style="color:'+col+';">'+sparesZero+'</div><div class="ml">Components zero stock</div></div>'
+  +'<div class="mc"><div class="mv" style="color:'+col+';">'+cond+'/100</div><div class="ml">Condition score</div></div>'
+  +'<div class="mc"><div class="mv amb">'+CTX.remainLife+'%</div><div class="ml">Remaining useful life</div></div>'
+  +'</div></div></div>'
+  +'<div class="ch" style="margin-bottom:16px;"><div class="ch-t">Critical spares inventory — '+line+' '+sys+'</div>'
+  +'<table class="dt"><thead><tr><th>Subsystem</th><th>Current stock</th><th>Safety level</th><th>Stock health</th><th>Lead time</th><th>LTB deadline</th><th>Status</th></tr></thead>'
+  +'<tbody>'+sparesRows+'</tbody></table></div>'
+  +'<div style="display:flex;gap:10px;">'
+  +'<button class="btn btn-d" onclick="buildModalRenew();go(\'modal-renew\')">Initiate renewal proposal</button>'
+  +'<button class="btn btn-w" onclick="buildModalObs();go(\'modal-obs\')">Flag last-time buy</button>'
+  +'<button class="btn btn-s" onclick="buildWL(\'wl-spares\');go(\'wl-spares\')">View Layer 1 signals</button>'
+  +'</div></div></div></div>';
+}
 
-Step 6: Output format
-Please structure your answer in this order:
+function buildDrillRenew() {
+  var line = CTX.line; var sys = CTX.system; var st = CTX.status;
+  var col = statusColor(st); var lbl = statusLabel(st);
+  var cond = CTX.condScore; var remLife = CTX.remainLife;
+  var budget = st==='d' ? 412 : st==='p' ? 280 : 150;
+  var spent = st==='d' ? 46 : st==='p' ? 12 : 5;
+  var overdue = st==='d' ? '8 months behind schedule' : st==='p' ? 'On schedule — award in 6 months' : 'Well ahead of schedule';
+  document.getElementById('s-drill-renew').innerHTML = '<div class="dk">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Renewal Intelligence',s:'mgmt-renew'},{l:line+' '+sys+' Renewal',s:'drill-renew'}],'drill-renew')
+  +'<div style="display:flex;flex:1;">'+makeSB('mgmt-renew',false)+'<div class="rmain">'
+  +'<div class="ptitle">Renewal Detail — '+line+' · '+sys+'</div>'
+  +'<div class="psub">Layer 2 renewal intelligence · '+CTX.pto+' · Condition × Obsolescence × Remaining Life × Funding</div>'
+  +'<div style="display:grid;grid-template-columns:200px 1fr;gap:16px;margin-bottom:20px;">'
+  +'<div class="risk-box">'
+  +'<div style="font-size:11px;color:#64748b;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;">Renewal Status</div>'
+  +'<div style="font-size:28px;font-weight:700;color:'+col+';line-height:1.2;">'+lbl+'</div>'
+  +'<div style="font-size:11px;color:#64748b;margin:8px 0 16px;">'+overdue+'</div>'
+  +'<div class="rf"><div class="rf-lbl"><span>Condition score</span><span style="color:'+col+';">'+cond+'/100</span></div><div class="rf-track"><div class="rf-fill" style="width:'+cond+'%;background:'+col+';"></div></div></div>'
+  +'<div class="rf"><div class="rf-lbl"><span>Remaining life</span><span style="color:'+col+';">'+remLife+'%</span></div><div class="rf-track"><div class="rf-fill" style="width:'+remLife+'%;background:#f97316;"></div></div></div>'
+  +'<div class="rf"><div class="rf-lbl"><span>Spares support</span><span class="amb">'+CTX.sparesSupport+'%</span></div><div class="rf-track"><div class="rf-fill" style="width:'+CTX.sparesSupport+'%;background:#fbbf24;"></div></div></div>'
+  +'<div class="rf"><div class="rf-lbl"><span>Funding approved</span><span class="grn">100%</span></div><div class="rf-track"><div class="rf-fill" style="width:100%;background:#22c55e;"></div></div></div>'
+  +'</div>'
+  +'<div>'
+  +'<div class="g4" style="gap:10px;margin-bottom:12px;">'
+  +'<div class="mc"><div class="mv amb">FY2026</div><div class="ml">Original award year</div></div>'
+  +'<div class="mc"><div class="mv" style="color:'+col+';">'+lbl+'</div><div class="ml">Current status</div></div>'
+  +'<div class="mc"><div class="mv blu">S$'+budget+'M</div><div class="ml">Total approved budget</div></div>'
+  +'<div class="mc"><div class="mv grn">S$'+spent+'M</div><div class="ml">Spent to date</div></div>'
+  +'</div>'
+  +'<div class="ch" style="margin-bottom:12px;"><div class="ch-t">Renewal justification</div>'
+  +'<table class="dt" style="font-size:11px;"><tbody>'
+  +'<tr><td style="color:#64748b;">Asset</td><td>'+line+' '+sys+' fleet</td></tr>'
+  +'<tr><td style="color:#64748b;">Current age</td><td style="color:'+col+';">'+(st==='d'?'26 years (IUL: 20 years)':st==='p'?'18 years (IUL: 20 years)':'12 years (IUL: 20 years)')+'</td></tr>'
+  +'<tr><td style="color:#64748b;">Condition score</td><td style="color:'+col+';">'+cond+'/100 — '+(cond<40?'POOR':cond<70?'FAIR':'GOOD')+'</td></tr>'
+  +'<tr><td style="color:#64748b;">OEM support</td><td style="color:'+col+';">'+(st==='d'?'Ended Dec 2023':st==='p'?'Extended to Dec 2026':'Active until 2030')+'</td></tr>'
+  +'<tr><td style="color:#64748b;">Last ACA score</td><td style="color:'+col+';">'+(cond<40?'Below threshold':'Above threshold')+' (Mar 2025)</td></tr>'
+  +'</tbody></table></div>'
+  +'<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">'
+  +'<div style="background:#450a0a;border-radius:6px;padding:10px;"><div style="font-size:11px;font-weight:600;color:#f87171;margin-bottom:4px;">Service Risk</div><div style="font-size:10px;color:#94a3b8;">'+(st==='d'?'Unplanned withdrawal risk. Peak hour: ~12,000 pax/day affected.':st==='p'?'Moderate risk if deferred beyond 12 months.':'Low risk. Well within service life.')+'</div></div>'
+  +'<div style="background:#451a03;border-radius:6px;padding:10px;"><div style="font-size:11px;font-weight:600;color:#fbbf24;margin-bottom:4px;">Financial Risk</div><div style="font-size:10px;color:#94a3b8;">'+(st==='d'?'Emergency maint: est. S$2.5M/yr. 6-month deferral +3–5% cost.':st==='p'?'Deferral beyond FY27 risks cost escalation ~2–3%.':'Minimal. Renewal within normal programme cost.')+'</div></div>'
+  +'<div style="background:#0c1a3a;border-radius:6px;padding:10px;"><div style="font-size:11px;font-weight:600;color:#7dd3fc;margin-bottom:4px;">Regulatory Risk</div><div style="font-size:10px;color:#94a3b8;">'+(st==='d'?'Operating beyond IUL. Licence compliance issue if not resolved Q3 2026.':st==='p'?'IUL expiry approaching. Renewal required before licence breach.':'No regulatory risk. Within IUL.')+'</div></div>'
+  +'</div></div></div>'
+  +'<div style="display:flex;gap:10px;margin-top:16px;">'
+  +(st==='d'?'<button class="btn btn-d" onclick="buildModalFund();go(\'modal-fund\')">Approve funding release</button><button class="btn btn-w">Escalate to GD RAOM</button>':'')
+  +(st==='p'?'<button class="btn btn-p" onclick="buildModalFund();go(\'modal-fund\')">Review funding plan</button>':'')
+  +'<button class="btn btn-s" onclick="buildWL(\'wl-am\');go(\'wl-am\')">View Layer 1 signals</button>'
+  +'<button class="btn btn-s" onclick="buildMgmtRenew();go(\'mgmt-renew\')">Back to renewal grid</button>'
+  +'</div></div></div></div>';
+}
 
-Research summary
-Recommended stay strategy: 1 base vs 2 bases
-Best Airbnb areas to search
-Attraction shortlist by region
-Shopping shortlist by region
-Café shortlist by region
-Restaurant shortlist by region
-Full itinerary overview
-Detailed day-by-day itinerary
-Time-blocked itinerary table
-Booking checklist
-Rainy-day alternatives
-Places to skip or deprioritize
-Final practical tips
-Quality control instructions
-Before answering, check your own work and make sure:
+function buildDrillOps() {
+  var line = CTX.line; var sys = CTX.system; var st = CTX.status;
+  var col = statusColor(st); var lbl = statusLabel(st);
+  var pm = CTX.pmPct; var ow = CTX.owCount; var rw = CTX.rework; var mp = CTX.manpower;
+  var divs = [
+    {name:'Rolling Stock', req:180, pct:st==='r'?77:st==='a'?85:94},
+    {name:'Signalling',    req:95,  pct:st==='r'?82:st==='a'?88:96},
+    {name:'Power (M&E)',   req:72,  pct:st==='r'?85:st==='a'?90:97},
+    {name:'Civil / Pway',  req:54,  pct:st==='r'?91:st==='a'?93:98},
+    {name:'AFC / Comms',   req:48,  pct:st==='r'?88:st==='a'?91:99}
+  ];
+  var mpRows = divs.map(function(d) {
+    var actual = Math.round(d.req * d.pct/100);
+    var dc = colForVal(d.pct, true);
+    var sl = d.pct>=90?'OK':d.pct>=80?'WATCH':'LOW';
+    var sb2 = d.pct>=90?'bd-g':d.pct>=80?'bd-a':'bd-r';
+    return '<tr><td>'+d.name+'</td><td>'+d.req+'</td><td>'+actual+'</td>'
+      +'<td style="color:'+dc+';font-weight:600;">'+d.pct+'%</td>'
+      +'<td><span class="bdg '+sb2+'">'+sl+'</span></td></tr>';
+  }).join('');
+  var sysData = ['RS','SIG','PWR','COM','ISCS','AFC','M&E'];
+  var pmBars = sysData.map(function(s,i) {
+    var v = st==='r' ? 60+i*4 : st==='a' ? 80+i*3 : 90+i*2;
+    v = Math.min(98,v);
+    var c = colForVal(v, true);
+    return '<div class="bi"><span class="b-val">'+v+'%</span>'
+      +'<div class="bar" style="height:'+v+'px;background:'+c+';">'
+      +'<div class="btip">'+line+' '+s+'\nPM completion: '+v+'%\nTarget: ≥95%\n'+(v<80?'NON-COMPLIANT':v<90?'Below target':'Near target')+'</div>'
+      +'</div><span class="b-lbl">'+s+'</span></div>';
+  }).join('');
 
-every day has a clear lunch area and dinner area
-every lunch and dinner has 2–3 restaurant choices
-restaurant choices are actually near the route
-the itinerary is not too rushed
-there are child-friendly activities on most days
-there are intentional café/rest buffers
-day 1 and day 7 are efficient because of flight timing
-the stay recommendation matches the route logic
-If your answer is still generic, revise it before giving the final answer.
+  document.getElementById('s-drill-ops').innerHTML = '<div class="dk">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Operator Performance',s:'mgmt-ops'},{l:line+' ('+CTX.pto+') Detail',s:'drill-ops'}],'drill-ops')
+  +'<div style="display:flex;flex:1;">'+makeSB('mgmt-ops',false)+'<div class="rmain">'
+  +'<div class="ptitle">Performance Detail — '+line+' ('+CTX.pto+')</div>'
+  +'<div class="psub">Layer 2 performance intelligence · Maintenance adequacy × Audit × Manpower × Rework rate</div>'
+  +'<div class="g4" style="margin-bottom:20px;">'
+  +'<div class="mc"><div class="mv" style="color:'+col+';">'+pm+'%</div><div class="ml">PM completion (target: 95%)</div><div class="bdg '+statusBdg(st)+'">'+lbl+'</div></div>'
+  +'<div class="mc"><div class="mv" style="color:'+col+';">'+ow+'</div><div class="ml">Overdue WOs (target: &lt;50)</div><div class="bdg '+statusBdg(st)+'">'+lbl+'</div></div>'
+  +'<div class="mc"><div class="mv" style="color:'+col+';">'+rw+'%</div><div class="ml">Rework rate (target: &lt;5%)</div><div class="bdg '+statusBdg(st)+'">'+lbl+'</div></div>'
+  +'<div class="mc"><div class="mv amb">'+mp+'%</div><div class="ml">Manpower (target: 90%)</div><div class="bdg '+(mp>=90?'bd-g':mp>=80?'bd-a':'bd-r')+'">'+(mp>=90?'PASS':mp>=80?'WATCH':'LOW')+'</div></div>'
+  +'</div>'
+  +'<div class="g2" style="margin-bottom:20px;">'
+  +'<div class="ch"><div class="ch-t">PM completion by system — '+line+' (May 2026)</div><div class="bar-grp">'+pmBars+'</div>'
+  +'<div style="font-size:10px;color:#64748b;margin-top:8px;">Data: MPR — PM Details. Target line: 95%.</div></div>'
+  +'<div class="ch"><div class="ch-t">Overdue WOs by age bucket — '+line+'</div>'
+  +'<div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">'
+  +'<div style="background:#1a1f2e;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>0–30 days overdue</span><span class="amb">'+Math.round(ow*.31)+' WOs</span></div>'+pBar(31,'#f59e0b')+'</div>'
+  +'<div style="background:#1a1f2e;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>31–60 days overdue</span><span class="red">'+Math.round(ow*.4)+' WOs</span></div>'+pBar(40,'#ef4444')+'</div>'
+  +'<div style="background:#1a1f2e;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Over 60 days overdue</span><span class="red">'+Math.round(ow*.29)+' WOs</span></div>'+pBar(29,'#ef4444')+'</div>'
+  +'</div></div></div>'
+  +'<div class="g2" style="margin-bottom:20px;">'
+  +'<div class="ch"><div class="ch-t">Manpower — required vs actual by division</div>'
+  +'<table class="dt"><thead><tr><th>Division</th><th>Required</th><th>Actual</th><th>Filled %</th><th>Status</th></tr></thead><tbody>'+mpRows+'</tbody></table>'
+  +'<div style="font-size:10px;color:#64748b;margin-top:8px;">Data: MPR — Manpower Status dataset.</div></div>'
+  +'<div class="ch"><div class="ch-t">eWON &amp; rework (process gap — US2)</div>'
+  +'<div style="background:#451a03;border-radius:6px;padding:12px;margin-bottom:12px;">'
+  +'<div style="font-size:11px;font-weight:600;color:#fbbf24;margin-bottom:6px;">&#9888; Process Gap — US2</div>'
+  +'<div style="font-size:10px;color:#94a3b8;line-height:1.6;">Granular eWON data (man-hours, technician IDs, skill tags) not yet captured. RAOM cannot independently verify maintenance quality — only PTO self-reported data available. BPR action required: mandate granular eWON via licence AMR change.</div></div>'
+  +'<div style="display:flex;flex-direction:column;gap:8px;">'
+  +'<div style="background:#1a1f2e;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Rework (same fault &lt;30 days)</span><span style="color:'+col+';">'+rw+'%</span></div>'+pBar(rw,'#ef4444')+'<div style="font-size:10px;color:#64748b;margin-top:4px;">Target: &lt;5%. Data: MPR — Maintenance KPI.</div></div>'
+  +'<div style="background:#1a1f2e;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>NFF (No Fault Found) rate</span><span class="amb">'+Math.round(rw*.7)+'%</span></div>'+pBar(Math.round(rw*.7),'#f59e0b')+'<div style="font-size:10px;color:#64748b;margin-top:4px;">Target: &lt;8%. High NFF indicates diagnostic quality issues.</div></div>'
+  +'</div></div></div>'
+  +'<div style="display:flex;gap:10px;">'
+  +(st==='r'?'<button class="btn btn-d" onclick="buildModalAudit();go(\'modal-audit\')">Issue observation notice</button><button class="btn btn-w">Trigger maintenance audit</button>':'')
+  +(st==='a'?'<button class="btn btn-w">Request corrective action plan</button>':'')
+  +'<button class="btn btn-p">Download performance report</button>'
+  +'<button class="btn btn-s" onclick="buildWL(\'wl-perf\');go(\'wl-perf\')">View Layer 1 signals</button>'
+  +'</div></div></div></div>';
+}
+
+// ── WORKING LEVEL SCREENS ─────────────────────────────────────────
+function buildWL(sid) {
+  if (sid==='wl-inv')    buildWLInv();
+  else if (sid==='wl-perf')   buildWLPerf();
+  else if (sid==='wl-spares') buildWLSpares();
+  else if (sid==='wl-am')     buildWLAM();
+  else if (sid==='wl-lcm')    buildWLLCM();
+}
+
+function buildWLInv() {
+  var ageData = [['0-5yr',245,'#4ade80',500,'245 assets\nAge: 0–5 years\nCondition: Good'],['6-10yr',312,'#4ade80',500,'312 assets\nAge: 6–10 years\nCondition: Good'],['11-15yr',287,'#fbbf24',500,'287 assets\nAge: 11–15 years\nCondition: Fair — monitor'],['16-20yr',198,'#fbbf24',500,'198 assets\nAge: 16–20 years\nCondition: Fair — renewal planning'],['&gt;20yr',124,'#f87171',500,'124 assets\nAge: >20 years\nCondition: Poor — renewal due']];
+  var ageBars = makeBars(ageData);
+  var rows = LINES.map(function(line,i) {
+    var total = [412,398,287,356,423,312,98,76][i];
+    var avgAge = [14,15,12,13,8,3,26,18][i];
+    var cond = [62,58,71,55,78,91,32,45][i];
+    var cc = colForVal(cond,true);
+    return '<tr onclick="setCtx(\''+line+'\',\'All Systems\',\''+(cond<50?'r':cond<70?'a':'g')+'\');buildDrillInv();go(\'drill-inv\')">'
+      +'<td>'+line+'</td><td>'+PTOS[line]+'</td><td>'+total+'</td>'
+      +'<td>'+avgAge+' yrs</td>'
+      +'<td><div class="sb-wrap"><div class="sb-fill" style="width:'+cond+'%;background:'+cc+';"></div></div> '+cond+'%</td>'
+      +'<td><span class="bdg '+(cond<50?'bd-r':cond<70?'bd-a':'bd-g')+'">'+(cond<50?'POOR':cond<70?'FAIR':'GOOD')+'</span></td>'
+      +'<td style="color:#7dd3fc;font-size:10px;">View detail →</td></tr>';
+  }).join('');
+  document.getElementById('s-wl-inv').innerHTML = '<div class="dk dk-ops">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Asset Inventory',s:'wl-inv'}],'wl-inv')
+  +'<div style="display:flex;flex:1;">'+makeSB('wl-inv',true)+'<div class="rmain">'
+  +'<div class="ptitle">Asset Inventory &amp; Accountability</div>'
+  +'<div class="psub">Asset hierarchy, population, age profile, condition — Layer 1 working level · Click any row to drill down by line</div>'
+  +'<div class="g4" style="margin-bottom:20px;">'
+  +'<div class="mc mc-dk"><div class="mv blu">2,162</div><div class="ml">Total tracked assets</div></div>'
+  +'<div class="mc mc-dk"><div class="mv amb">124</div><div class="ml">Assets &gt;20 years old</div><div class="bdg bd-a">Renewal zone</div></div>'
+  +'<div class="mc mc-dk"><div class="mv grn">58%</div><div class="ml">Avg fleet condition score</div><div class="bdg bd-a">Target: ≥70%</div></div>'
+  +'<div class="mc mc-dk"><div class="mv red">8</div><div class="ml">Lines with assets past IUL</div><div class="bdg bd-r">Action required</div></div>'
+  +'</div>'
+  +'<div class="g2" style="margin-bottom:20px;">'
+  +'<div class="ch ch-dk"><div class="ch-t">Asset age profile — all lines</div><div class="bar-grp">'+ageBars+'</div>'
+  +'<div style="font-size:10px;color:#64748b;margin-top:8px;">Source: Asset Master List (AMDA). Updated monthly.</div></div>'
+  +'<div class="ch ch-dk"><div class="ch-t">Asset condition distribution</div>'
+  +'<div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">'
+  +'<div style="background:#0f172a;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Good (score ≥70)</span><span class="grn">38% — 821 assets</span></div>'+pBar(38,'#22c55e')+'</div>'
+  +'<div style="background:#0f172a;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Fair (score 50–69)</span><span class="amb">45% — 973 assets</span></div>'+pBar(45,'#f59e0b')+'</div>'
+  +'<div style="background:#0f172a;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Poor (score &lt;50)</span><span class="red">17% — 368 assets</span></div>'+pBar(17,'#ef4444')+'</div>'
+  +'</div></div></div>'
+  +'<div class="ch ch-dk"><div class="ch-t">Asset inventory by rail line — click any row to drill down</div>'
+  +'<table class="dt"><thead><tr><th>Rail Line</th><th>PTO</th><th>Total Assets</th><th>Avg Age</th><th>Avg Condition</th><th>Status</th><th></th></tr></thead>'
+  +'<tbody>'+rows+'</tbody></table></div>'
+  +'</div></div></div>';
+}
+
+function buildWLPerf() {
+  var lineData = [[1820000,'NSL','#f87171'],[2340000,'EWL','#fbbf24'],[3120000,'NEL','#4ade80'],[2890000,'CCL','#f87171'],[4210000,'DTL','#4ade80'],[5100000,'TEL','#4ade80'],[980000,'BPLRT','#f87171'],[1200000,'SPLRT','#fbbf24']];
+  var mkbfBars = lineData.map(function(d,i){
+    var h = Math.round(d[0]/5100000*100);
+    return '<div class="bi"><span class="b-val" style="font-size:8px;">'+(d[0]/1000000).toFixed(1)+'M</span>'
+      +'<div class="bar" style="height:'+h+'px;background:'+d[2]+';"><div class="btip">'+d[1]+' MKBF\n'+(d[0]/1000000).toFixed(2)+'M km\nTarget: ≥1M km\n'+(d[0]>=1000000?'Meeting target':'BELOW TARGET')+'\nClick row in table to drill down</div></div>'
+      +'<span class="b-lbl">'+d[1]+'</span></div>';
+  }).join('');
+  var ssftarRows = lineData.map(function(d,i) {
+    var target = [1000000,1000000,1200000,1000000,1200000,1200000,800000,900000][i];
+    var pct = Math.round(d[0]/target*100);
+    var col = d[0]>=target?'#4ade80':'#f87171';
+    return '<tr onclick="setCtx(\''+d[1]+'\',\'Rolling Stock\',\''+(d[0]>=target?'g':'r')+'\');buildDrillPerf();go(\'drill-perf\')">'
+      +'<td>'+d[1]+'</td><td>'+PTOS[d[1]]+'</td>'
+      +'<td>'+(d[0]/1000000).toFixed(2)+'M km</td>'
+      +'<td>'+(target/1000000).toFixed(1)+'M km</td>'
+      +'<td style="color:'+col+';font-weight:600;">'+pct+'%</td>'
+      +'<td><span class="bdg '+(pct>=100?'bd-g':'bd-r')+'">'+(pct>=100?'MET':'MISSED')+'</span></td>'
+      +'<td style="color:#7dd3fc;font-size:10px;">Drill down →</td></tr>';
+  }).join('');
+  var faultBars = makeBars([
+    ['RS',892,1200,'#f87171','892','Rolling Stock: 892 faults\nTop cause: Brake defects'],
+    ['SIG',234,1200,'#fbbf24','234','Signalling: 234 faults\nTop cause: Track circuit'],
+    ['PWR',187,1200,'#4ade80','187','Power: 187 faults\nTop cause: Insulation'],
+    ['COM',98,1200,'#4ade80','98','Comms: 98 faults'],
+    ['ISCS',145,1200,'#4ade80','145','ISCS: 145 faults'],
+    ['CIV',67,1200,'#4ade80','67','Civil: 67 faults\nTop cause: Track geometry']
+  ]);
+  document.getElementById('s-wl-perf').innerHTML = '<div class="dk dk-ops">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Performance Analysis',s:'wl-perf'}],'wl-perf')
+  +'<div style="display:flex;flex:1;">'+makeSB('wl-perf',true)+'<div class="rmain">'
+  +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">'
+  +'<div class="ptitle">Performance Analysis</div>'
+  +'<div style="display:flex;gap:8px;"><select style="font-size:11px;padding:4px 8px;background:#1a1f2e;border:1px solid #334155;color:#e2e8f0;"><option>May 2026</option><option>Apr 2026</option><option>Q1 2026</option></select>'
+  +'<select style="font-size:11px;padding:4px 8px;background:#1a1f2e;border:1px solid #334155;color:#e2e8f0;"><option>All Lines</option>'
+  +LINES.map(function(l){return '<option>'+l+'</option>';}).join('')+'</select></div></div>'
+  +'<div class="psub">SSFTAR, F&amp;D, fault trending, MKBF — Layer 1 working level · Click any row to drill down</div>'
+  +'<div class="g4" style="margin-bottom:20px;">'
+  +'<div class="mc mc-dk"><div class="mv red">3</div><div class="ml">Lines below 1M MKBF</div><div class="bdg bd-r">NSL, CCL, BPLRT</div></div>'
+  +'<div class="mc mc-dk"><div class="mv amb">1,623</div><div class="ml">Total faults (May 2026)</div><div class="bdg bd-a">+8% vs Apr 2026</div></div>'
+  +'<div class="mc mc-dk"><div class="mv red">287</div><div class="ml">Total delays (May 2026)</div><div class="bdg bd-r">+12% vs target</div></div>'
+  +'<div class="mc mc-dk"><div class="mv grn">5</div><div class="ml">Lines meeting MKBF target</div><div class="bdg bd-g">EWL,NEL,DTL,TEL,SPLRT</div></div>'
+  +'</div>'
+  +'<div class="g2" style="margin-bottom:20px;">'
+  +'<div class="ch ch-dk"><div class="ch-t">MKBF by line — May 2026 (km)</div><div class="bar-grp">'+mkbfBars+'</div>'
+  +'<div style="font-size:10px;color:#64748b;margin-top:8px;">Data: SSFTAR dataset. Target line: 1M km (NSL/CCL/BPLRT); 1.2M km (NEL/DTL/TEL).</div></div>'
+  +'<div class="ch ch-dk"><div class="ch-t">Fault count by system — all lines (May 2026)</div><div class="bar-grp">'+faultBars+'</div>'
+  +'<div style="font-size:10px;color:#64748b;margin-top:8px;">Data: F&amp;D Dashboard. Hover bars for detail.</div></div>'
+  +'</div>'
+  +'<div class="ch ch-dk" style="margin-bottom:20px;"><div class="ch-t">SSFTAR by rail line — click any row to drill down</div>'
+  +'<table class="dt"><thead><tr><th>Rail Line</th><th>PTO</th><th>Actual MKBF</th><th>Target MKBF</th><th>% of Target</th><th>Status</th><th></th></tr></thead>'
+  +'<tbody>'+ssftarRows+'</tbody></table></div>'
+  +'<div class="ch ch-dk"><div class="ch-t">Delay cause breakdown — all lines (May 2026)</div>'
+  +'<div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">'
+  +'<div style="background:#0f172a;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Rolling Stock defects</span><span class="red">127 delays (44%)</span></div>'+pBar(44,'#ef4444')+'</div>'
+  +'<div style="background:#0f172a;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Signalling / track circuit</span><span class="amb">68 delays (24%)</span></div>'+pBar(24,'#f59e0b')+'</div>'
+  +'<div style="background:#0f172a;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>External / passenger actions</span><span class="grn">54 delays (19%)</span></div>'+pBar(19,'#22c55e')+'</div>'
+  +'<div style="background:#0f172a;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Power / infrastructure</span><span class="grn">38 delays (13%)</span></div>'+pBar(13,'#4ade80')+'</div>'
+  +'</div></div>'
+  +'</div></div></div>';
+}
+
+function buildWLSpares() {
+  var sysData = [
+    {sys:'PSF', total:155, below:30, pct:19},
+    {sys:'PWAY', total:412, below:0, pct:0},
+    {sys:'PWY', total:98, below:6, pct:6},
+    {sys:'RSD', total:67, below:3, pct:4},
+    {sys:'RSW', total:203, below:28, pct:14},
+    {sys:'SIG', total:189, below:10, pct:5}
+  ];
+  var sBars = sysData.map(function(d) {
+    var col = d.pct>20?'#f87171':d.pct>5?'#fbbf24':'#4ade80';
+    return '<div class="bi"><span class="b-val">'+d.total+'</span>'
+      +'<div class="bar" style="height:'+Math.round(d.total/412*100)+'px;background:#2d3748;position:relative;">'
+      +'<div class="btip">'+d.sys+'\nTotal: '+d.total+'\nBelow safety: '+d.below+' ('+d.pct+'%)</div></div>'
+      +'<span class="b-lbl">'+d.sys+'</span></div>';
+  }).join('');
+  var ltRows = [
+    {sys:'Rolling Stock',cat:'Brakes',lt:'14–18 mo',supplier:'OEM — Knorr-Bremse',risk:'HIGH'},
+    {sys:'Signalling',cat:'Track circuit',lt:'8–12 mo',supplier:'Alstom / Thales',risk:'MED'},
+    {sys:'Power',cat:'Traction motors',lt:'12–16 mo',supplier:'Siemens',risk:'HIGH'},
+    {sys:'Civil',cat:'Rail / sleepers',lt:'3–6 mo',supplier:'Multiple',risk:'LOW'},
+    {sys:'AFC',cat:'Fare gates',lt:'6–10 mo',supplier:'Cubic / Thales',risk:'MED'}
+  ].map(function(r) {
+    var rc = r.risk==='HIGH'?'bd-r':r.risk==='MED'?'bd-a':'bd-g';
+    return '<tr onclick="buildDrillSpares();go(\'drill-spares\')">'
+      +'<td>'+r.sys+'</td><td style="color:#64748b;">'+r.cat+'</td><td>'+r.lt+'</td>'
+      +'<td style="color:#94a3b8;">'+r.supplier+'</td>'
+      +'<td><span class="bdg '+rc+'">'+r.risk+'</span></td>'
+      +'<td style="color:#7dd3fc;font-size:10px;">Drill down →</td></tr>';
+  }).join('');
+  document.getElementById('s-wl-spares').innerHTML = '<div class="dk dk-ops">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Spares & Resources',s:'wl-spares'}],'wl-spares')
+  +'<div style="display:flex;flex:1;">'+makeSB('wl-spares',true)+'<div class="rmain">'
+  +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">'
+  +'<div class="ptitle">Spares &amp; Resources Utilisation Tracking</div>'
+  +'<div style="display:flex;gap:8px;"><select style="font-size:11px;padding:4px 8px;background:#1a1f2e;border:1px solid #334155;color:#e2e8f0;"><option>All Lines</option>'
+  +LINES.map(function(l){return '<option>'+l+'</option>';}).join('')+'</select>'
+  +'<select style="font-size:11px;padding:4px 8px;background:#1a1f2e;border:1px solid #334155;color:#e2e8f0;"><option>All Systems</option>'
+  +SYSTEMS.map(function(s){return '<option>'+s+'</option>';}).join('')+'</select></div></div>'
+  +'<div class="psub">Critical spares inventory, stock health, lead times, supplier risk — Layer 1 working level · Click rows to drill down</div>'
+  +'<div class="g4" style="margin-bottom:20px;">'
+  +'<div class="mc mc-dk"><div class="mv red">77</div><div class="ml">Items below safety level</div><div class="bdg bd-r">Action required</div></div>'
+  +'<div class="mc mc-dk"><div class="mv red">21</div><div class="ml">Items at zero stock</div><div class="bdg bd-r">Critical</div></div>'
+  +'<div class="mc mc-dk"><div class="mv amb">14 mo</div><div class="ml">Avg lead time (critical items)</div><div class="bdg bd-a">High risk</div></div>'
+  +'<div class="mc mc-dk"><div class="mv grn">1,124</div><div class="ml">Items meeting safety level</div><div class="bdg bd-g">Normal</div></div>'
+  +'</div>'
+  +'<div class="g2" style="margin-bottom:20px;">'
+  +'<div class="ch ch-dk"><div class="ch-t">Critical spares stock across systems</div><div class="bar-grp">'+sBars+'</div>'
+  +'<div style="font-size:10px;color:#64748b;margin-top:8px;">Data: MPR Spares dataset. Updated monthly by PTOs.</div></div>'
+  +'<div class="ch ch-dk"><div class="ch-t">Stock utilisation rate — last 6 months</div>'
+  +'<div class="bar-grp">'+makeBars([['Dec',68,100,'#fbbf24','68%','Dec 2025\nUtilisation: 68%'],['Jan',71,100,'#fbbf24','71%','Jan 2026\nUtilisation: 71%'],['Feb',74,100,'#fbbf24','74%','Feb 2026\nUtilisation: 74%'],['Mar',69,100,'#fbbf24','69%','Mar 2026\nUtilisation: 69%'],['Apr',72,100,'#fbbf24','72%','Apr 2026\nUtilisation: 72%'],['May',75,100,'#fbbf24','75%','May 2026\nUtilisation: 75%']])+'</div></div>'
+  +'</div>'
+  +'<div class="ch ch-dk"><div class="ch-t">Lead time risk by system — click any row to drill down</div>'
+  +'<table class="dt"><thead><tr><th>System</th><th>Category</th><th>Lead Time</th><th>Supplier</th><th>Lead Time Risk</th><th></th></tr></thead>'
+  +'<tbody>'+ltRows+'</tbody></table></div>'
+  +'</div></div></div>';
+}
+
+function buildWLAM() {
+  var obsRows = [
+    {line:'NSL',sys:'Rolling Stock',total:28,zero:4,eos:12,risk:'HIGH'},
+    {line:'CCL',sys:'Rolling Stock',total:21,zero:7,eos:8,risk:'CRITICAL'},
+    {line:'BPLRT',sys:'Rolling Stock',total:18,zero:3,eos:15,risk:'CRITICAL'},
+    {line:'NEL',sys:'Signalling',total:12,zero:1,eos:5,risk:'MED'},
+    {line:'EWL',sys:'Power',total:8,zero:0,eos:3,risk:'LOW'},
+    {line:'CCL',sys:'Signalling',total:22,zero:5,eos:10,risk:'HIGH'}
+  ].map(function(r) {
+    var rc = r.risk==='CRITICAL'?'bd-r':r.risk==='HIGH'?'bd-r':r.risk==='MED'?'bd-a':'bd-g';
+    return '<tr onclick="setCtx(\''+r.line+'\',\''+r.sys+'\',\''+(r.risk==='CRITICAL'||r.risk==='HIGH'?'r':r.risk==='MED'?'a':'g')+'\');buildDrillAM();go(\'drill-am\')">'
+      +'<td>'+r.line+'</td><td>'+r.sys+'</td><td>'+r.total+'</td>'
+      +'<td style="color:#f87171;font-weight:600;">'+r.zero+'</td>'
+      +'<td style="color:#fbbf24;">'+r.eos+'</td>'
+      +'<td><span class="bdg '+rc+'">'+r.risk+'</span></td>'
+      +'<td style="color:#7dd3fc;font-size:10px;">Drill down →</td></tr>';
+  }).join('');
+  var renewalRows = [
+    {line:'BPLRT',sys:'Rolling Stock',award:'FY2026',status:'OVERDUE',pct:11,col:'#f87171',bcol:'bd-r'},
+    {line:'CCL',sys:'Signalling',award:'FY2026',status:'OVERDUE',pct:8,col:'#f87171',bcol:'bd-r'},
+    {line:'NSL',sys:'Rolling Stock',award:'FY2027',status:'DUE SOON',pct:35,col:'#fbbf24',bcol:'bd-a'},
+    {line:'EWL',sys:'Rolling Stock',award:'FY2028',status:'ON TRACK',pct:62,col:'#4ade80',bcol:'bd-g'},
+    {line:'NEL',sys:'Power',award:'FY2029',status:'ON TRACK',pct:78,col:'#4ade80',bcol:'bd-g'}
+  ].map(function(r) {
+    return '<tr onclick="setCtx(\''+r.line+'\',\''+r.sys+'\',\''+(r.status==='OVERDUE'?'d':r.status==='DUE SOON'?'p':'m')+'\');buildDrillAM();go(\'drill-am\')">'
+      +'<td>'+r.line+'</td><td>'+r.sys+'</td><td>'+r.award+'</td>'
+      +'<td><div class="sb-wrap"><div class="sb-fill" style="width:'+r.pct+'%;background:'+r.col+';"></div></div></td>'
+      +'<td><span class="bdg '+r.bcol+'">'+r.status+'</span></td>'
+      +'<td style="color:#7dd3fc;font-size:10px;">Drill down →</td></tr>';
+  }).join('');
+  document.getElementById('s-wl-am').innerHTML = '<div class="dk dk-ops">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Asset Mgmt & Renewal',s:'wl-am'}],'wl-am')
+  +'<div style="display:flex;flex:1;">'+makeSB('wl-am',true)+'<div class="rmain">'
+  +'<div class="ptitle">Asset Management &amp; Renewal Planning</div>'
+  +'<div class="psub">Obsolescence monitoring, renewal planning, MLFC — Layer 1 working level · Click rows to drill down</div>'
+  +'<div class="g4" style="margin-bottom:20px;">'
+  +'<div class="mc mc-dk"><div class="mv red">115</div><div class="ml">Total obsolescence assets</div><div class="bdg bd-r">Across all lines</div></div>'
+  +'<div class="mc mc-dk"><div class="mv red">21</div><div class="ml">Assets with zero stock</div><div class="bdg bd-r">Critical</div></div>'
+  +'<div class="mc mc-dk"><div class="mv amb">11</div><div class="ml">Renewals overdue</div><div class="bdg bd-a">Escalation needed</div></div>'
+  +'<div class="mc mc-dk"><div class="mv blu">S$1.1B</div><div class="ml">FY25–32 renewal budget</div><div class="bdg bd-b">Committed programme</div></div>'
+  +'</div>'
+  +'<div class="sec-div">Obsolescence Monitoring</div>'
+  +'<div class="ch ch-dk" style="margin-bottom:16px;"><div class="ch-t">Obsolescence by rail line × system — click any row to drill down</div>'
+  +'<table class="dt"><thead><tr><th>Line</th><th>System</th><th>Total Obs Assets</th><th>Zero Stock</th><th>EOS Declared</th><th>Risk Level</th><th></th></tr></thead>'
+  +'<tbody>'+obsRows+'</tbody></table></div>'
+  +'<div class="sec-div">Renewal Planning</div>'
+  +'<div class="ch ch-dk"><div class="ch-t">Renewal programme status — click any row to drill down</div>'
+  +'<table class="dt"><thead><tr><th>Line</th><th>System</th><th>Award FY</th><th>Progress</th><th>Status</th><th></th></tr></thead>'
+  +'<tbody>'+renewalRows+'</tbody></table></div>'
+  +'</div></div></div>';
+}
+
+function buildWLLCM() {
+  var lccData = [[312,'NSL',280,'#4ade80'],[298,'EWL',280,'#fbbf24'],[187,'NEL',180,'#4ade80'],[423,'CCL',380,'#f87171'],[198,'DTL',180,'#fbbf24'],[112,'TEL',100,'#fbbf24']];
+  var lccBars = lccData.map(function(d){
+    var h = Math.round(d[0]/450*100);
+    return '<div class="bi"><span class="b-val" style="font-size:8px;">S$'+d[0]+'M</span>'
+      +'<div class="bar" style="height:'+h+'px;background:'+d[3]+';"><div class="btip">'+d[1]+'\nActual LCC: S$'+d[0]+'M\nTarget: S$'+d[2]+'M\n'+(d[0]>d[2]?'OVER BUDGET':'Within budget')+'\nClick to drill down</div></div>'
+      +'<span class="b-lbl">'+d[1]+'</span></div>';
+  }).join('');
+  var mtbfRows = LINES.slice(0,6).map(function(line,i) {
+    var design = [2000000,2000000,1500000,1500000,2000000,2500000][i];
+    var actual = [1820000,2340000,3120000,2890000,4210000,5100000][i];
+    var pct = Math.round(actual/design*100);
+    var col = pct>=100?'#4ade80':pct>=80?'#fbbf24':'#f87171';
+    return '<tr onclick="setCtx(\''+line+'\',\'Rolling Stock\',\''+(pct>=100?'g':pct>=80?'a':'r')+'\');buildDrillLCM();go(\'drill-lcm\')">'
+      +'<td>'+line+'</td><td>'+PTOS[line]+'</td>'
+      +'<td style="color:#94a3b8;">'+(design/1000000).toFixed(1)+'M km</td>'
+      +'<td style="color:'+col+';font-weight:600;">'+(actual/1000000).toFixed(2)+'M km</td>'
+      +'<td style="color:'+col+';">'+pct+'%</td>'
+      +'<td><span class="bdg '+(pct>=100?'bd-g':pct>=80?'bd-a':'bd-r')+'">'+(pct>=100?'EXCEEDS':'MEETS'<pct>=80?'NEAR':'BELOW')+'</span></td>'
+      +'<td style="color:#7dd3fc;font-size:10px;">Drill down →</td></tr>';
+  }).join('');
+  var ulRows = [
+    {sys:'Rolling Stock',avg:16,iUL:20,pct:80,col:'#fbbf24'},
+    {sys:'Signalling',avg:12,iUL:25,pct:48,col:'#4ade80'},
+    {sys:'Power (M&E)',avg:18,iUL:25,pct:72,col:'#fbbf24'},
+    {sys:'Civil / Track',avg:22,iUL:30,pct:73,col:'#fbbf24'},
+    {sys:'AFC Systems',avg:8,iUL:15,pct:53,col:'#4ade80'}
+  ].map(function(r){
+    return '<tr onclick="buildDrillLCM();go(\'drill-lcm\')">'
+      +'<td>'+r.sys+'</td><td>'+r.avg+' yrs</td><td>'+r.iUL+' yrs</td>'
+      +'<td><div class="sb-wrap"><div class="sb-fill" style="width:'+r.pct+'%;background:'+r.col+';"></div></div> '+r.pct+'%</td>'
+      +'<td><span class="bdg '+(r.pct>80?'bd-r':r.pct>60?'bd-a':'bd-g')+'">'+(r.pct>80?'RENEWAL ZONE':r.pct>60?'MONITOR':'GOOD')+'</span></td>'
+      +'<td style="color:#7dd3fc;font-size:10px;">Drill down →</td></tr>';
+  }).join('');
+  document.getElementById('s-wl-lcm').innerHTML = '<div class="dk dk-ops">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Life Cycle Management',s:'wl-lcm'}],'wl-lcm')
+  +'<div style="display:flex;flex:1;">'+makeSB('wl-lcm',true)+'<div class="rmain">'
+  +'<div class="ptitle">Life Cycle Management</div>'
+  +'<div class="psub">LCC, MTBF design vs actual, asset useful life tracking — Layer 1 working level · Click rows to drill down</div>'
+  +'<div class="g4" style="margin-bottom:20px;">'
+  +'<div class="mc mc-dk"><div class="mv blu">S$1.53B</div><div class="ml">Total LCC tracked (all lines)</div></div>'
+  +'<div class="mc mc-dk"><div class="mv red">CCL</div><div class="ml">Highest LCC variance</div><div class="bdg bd-r">+11% over budget</div></div>'
+  +'<div class="mc mc-dk"><div class="mv amb">3</div><div class="ml">Lines with MTBF below design</div><div class="bdg bd-a">NSL, CCL, BPLRT</div></div>'
+  +'<div class="mc mc-dk"><div class="mv amb">2</div><div class="ml">Systems in renewal zone</div><div class="bdg bd-a">&gt;80% of IUL consumed</div></div>'
+  +'</div>'
+  +'<div class="sec-div">Life Cycle Cost (LCC)</div>'
+  +'<div class="ch ch-dk" style="margin-bottom:16px;"><div class="ch-t">Actual LCC vs budget by rail line (S$M)</div><div class="bar-grp">'+lccBars+'</div>'
+  +'<div style="font-size:10px;color:#64748b;margin-top:8px;">Data: MLFC Dashboard / LCC dataset (US5/US6 — pending AMSP process resolution). Hover bars for detail.</div></div>'
+  +'<div class="sec-div">MTBF — Design vs Actual</div>'
+  +'<div class="ch ch-dk" style="margin-bottom:16px;"><div class="ch-t">MTBF actual vs design target — click row to drill down</div>'
+  +'<table class="dt"><thead><tr><th>Line</th><th>PTO</th><th>Design MTBF</th><th>Actual MTBF</th><th>% of Design</th><th>Status</th><th></th></tr></thead>'
+  +'<tbody>'+mtbfRows+'</tbody></table></div>'
+  +'<div class="sec-div">Asset Useful Life Tracker</div>'
+  +'<div class="ch ch-dk"><div class="ch-t">% of IUL consumed by system — click row to drill down</div>'
+  +'<table class="dt"><thead><tr><th>System</th><th>Avg Asset Age</th><th>IUL</th><th>% IUL Consumed</th><th>Status</th><th></th></tr></thead>'
+  +'<tbody>'+ulRows+'</tbody></table></div>'
+  +'</div></div></div>';
+}
+
+// ── WORKING LEVEL DRILL-DOWNS ─────────────────────────────────────
+function buildDrillInv() {
+  var line = CTX.line; var st = CTX.status;
+  var col = statusColor(st);
+  var systems = SYSTEMS.concat(['AFC','M&E Services']);
+  var sRows = systems.map(function(s,i){
+    var cnt = [45,38,67,120,22,18][i] || 30;
+    var age = [16,14,12,18,8,6][i] || 10;
+    var cond = st==='r'?[32,45,38,28,65,72][i]:st==='a'?[55,62,58,48,75,82][i]:[78,82,79,74,89,91][i];
+    var cc = colForVal(cond,true);
+    return '<tr>'
+      +'<td>'+s+'</td><td>'+cnt+' assets</td><td>'+age+' yrs</td>'
+      +'<td style="color:'+cc+';font-weight:600;">'+cond+'/100</td>'
+      +'<td><div class="sb-wrap"><div class="sb-fill" style="width:'+cond+'%;background:'+cc+';"></div></div></td>'
+      +'<td><span class="bdg '+(cond<50?'bd-r':cond<70?'bd-a':'bd-g')+'">'+(cond<50?'POOR':cond<70?'FAIR':'GOOD')+'</span></td></tr>';
+  }).join('');
+  var ageD = [['0-5yr',st==='r'?8:st==='a'?18:45,'#4ade80',60,'Assets'],['6-10yr',st==='r'?25:st==='a'?38:62,'#4ade80',70,'Assets'],['11-15yr',st==='r'?42:st==='a'?55:48,'#fbbf24',70,'Assets'],['16-20yr',st==='r'?55:st==='a'?32:18,'#fbbf24',60,'Assets'],['>20yr',st==='r'?82:st==='a'?28:5,'#f87171',90,'Assets — renewal zone']];
+  document.getElementById('s-drill-inv').innerHTML = '<div class="dk dk-ops">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Asset Inventory',s:'wl-inv'},{l:line+' — Asset Detail',s:'drill-inv'}],'drill-inv')
+  +'<div style="display:flex;flex:1;">'+makeSB('wl-inv',true)+'<div class="rmain">'
+  +'<div class="ptitle">Asset Inventory — '+line+' ('+CTX.pto+')</div>'
+  +'<div class="psub">Detailed asset breakdown by system · Condition scores · Age profile</div>'
+  +'<div class="g4" style="margin-bottom:20px;">'
+  +'<div class="mc mc-dk"><div class="mv blu">310</div><div class="ml">Total tracked assets</div></div>'
+  +'<div class="mc mc-dk"><div class="mv" style="color:'+col+';">'+CTX.condScore+'</div><div class="ml">Avg condition score /100</div></div>'
+  +'<div class="mc mc-dk"><div class="mv" style="color:'+col+';">'+(st==='r'?82:st==='a'?32:8)+'</div><div class="ml">Assets &gt;20 years old</div></div>'
+  +'<div class="mc mc-dk"><div class="mv amb">'+CTX.remainLife+'%</div><div class="ml">Avg remaining useful life</div></div>'
+  +'</div>'
+  +'<div class="g2" style="margin-bottom:20px;">'
+  +'<div class="ch ch-dk"><div class="ch-t">Age profile — '+line+'</div><div class="bar-grp">'+makeBars(ageD.map(function(d){return [d[0],d[1],d[2],d[3],d[1]+'',d[4]];}))+'</div></div>'
+  +'<div class="ch ch-dk"><div class="ch-t">Condition distribution</div>'
+  +'<div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">'
+  +'<div style="background:#0f172a;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Good (≥70)</span><span class="grn">'+(st==='r'?'12%':st==='a'?'31%':'58%')+'</span></div>'+pBar(st==='r'?12:st==='a'?31:58,'#22c55e')+'</div>'
+  +'<div style="background:#0f172a;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Fair (50–69)</span><span class="amb">'+(st==='r'?'35%':st==='a'?'48%':'34%')+'</span></div>'+pBar(st==='r'?35:st==='a'?48:34,'#f59e0b')+'</div>'
+  +'<div style="background:#0f172a;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Poor (&lt;50)</span><span class="red">'+(st==='r'?'53%':st==='a'?'21%':'8%')+'</span></div>'+pBar(st==='r'?53:st==='a'?21:8,'#ef4444')+'</div>'
+  +'</div></div></div>'
+  +'<div class="ch ch-dk"><div class="ch-t">Asset breakdown by system — '+line+'</div>'
+  +'<table class="dt"><thead><tr><th>System</th><th>Asset Count</th><th>Avg Age</th><th>Condition Score</th><th>Health Bar</th><th>Status</th></tr></thead>'
+  +'<tbody>'+sRows+'</tbody></table></div>'
+  +'</div></div></div>';
+}
+
+function buildDrillPerf() {
+  var line = CTX.line; var st = CTX.status; var col = statusColor(st);
+  var mkbf = st==='r'?820000:st==='a'?1150000:2890000;
+  var target = 1000000;
+  var months = ['Oct','Nov','Dec','Jan','Feb','Mar','Apr','May'];
+  var trend = months.map(function(m,i){
+    var base = st==='r'?780000:st==='a'?920000:2600000;
+    var v = base + i*(st==='r'?5000:st==='a'?15000:40000);
+    var col2 = v>=target?'#4ade80':'#f87171';
+    return [m, Math.round(v/1000), 3100, col2, Math.round(v/1000)+'K', m+' MKBF: '+(v/1000000).toFixed(2)+'M km\nTarget: '+(target/1000000)+'M km'];
+  });
+  var faultBars = makeBars([
+    ['Brakes',st==='r'?287:st==='a'?98:32,300,'#f87171',st==='r'?'287':st==='a'?'98':'32','Brake faults\nTop cause: Brake disc wear'],
+    ['Doors',st==='r'?145:st==='a'?67:18,300,'#fbbf24',st==='r'?'145':st==='a'?'67':'18','Door faults'],
+    ['HVAC',st==='r'?89:st==='a'?45:12,300,'#fbbf24',st==='r'?'89':st==='a'?'45':'12','HVAC faults'],
+    ['Propulsion',st==='r'?234:st==='a'?123:45,300,'#f87171',st==='r'?'234':st==='a'?'123':'45','Propulsion faults\nTop cause: Traction motor'],
+    ['TIMS',st==='r'?67:st==='a'?23:8,300,'#4ade80',st==='r'?'67':st==='a'?'23':'8','TIMS faults']
+  ]);
+  document.getElementById('s-drill-perf').innerHTML = '<div class="dk dk-ops">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Performance Analysis',s:'wl-perf'},{l:line+' — Performance Detail',s:'drill-perf'}],'drill-perf')
+  +'<div style="display:flex;flex:1;">'+makeSB('wl-perf',true)+'<div class="rmain">'
+  +'<div class="ptitle">Performance Detail — '+line+' ('+CTX.pto+')</div>'
+  +'<div class="psub">MKBF trend, fault analysis, F&amp;D breakdown — Layer 1 drill-down · Hover charts for detail</div>'
+  +'<div class="g4" style="margin-bottom:20px;">'
+  +'<div class="mc mc-dk"><div class="mv" style="color:'+col+';">'+(mkbf/1000000).toFixed(2)+'M</div><div class="ml">MKBF (May 2026)</div><div class="bdg '+(mkbf>=target?'bd-g':'bd-r')+'">'+(mkbf>=target?'TARGET MET':'BELOW TARGET')+'</div></div>'
+  +'<div class="mc mc-dk"><div class="mv" style="color:'+col+';">'+(st==='r'?'822':st==='a'?'312':'98')+'</div><div class="ml">Total faults (May 2026)</div></div>'
+  +'<div class="mc mc-dk"><div class="mv" style="color:'+col+';">'+(st==='r'?'127':st==='a'?'45':'12')+'</div><div class="ml">Total delays (May 2026)</div></div>'
+  +'<div class="mc mc-dk"><div class="mv grn">'+(st==='r'?'44':st==='a'?'69':'91')+'%</div><div class="ml">On-time performance</div></div>'
+  +'</div>'
+  +'<div class="g2" style="margin-bottom:20px;">'
+  +'<div class="ch ch-dk"><div class="ch-t">MKBF trend — '+line+' (12 months, km)</div><div class="bar-grp">'+makeBars(trend)+'</div>'
+  +'<div style="font-size:10px;color:#64748b;margin-top:8px;">Target: '+(target/1000000)+'M km. Data: SSFTAR dataset.</div></div>'
+  +'<div class="ch ch-dk"><div class="ch-t">Fault count by subsystem — '+line+' (May 2026)</div><div class="bar-grp">'+faultBars+'</div></div>'
+  +'</div>'
+  +'<div class="ch ch-dk"><div class="ch-t">F&amp;D delay cause breakdown — '+line+'</div>'
+  +'<div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">'
+  +'<div style="background:#0f172a;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Rolling Stock defects</span><span class="red">'+(st==='r'?'72 delays (57%)':st==='a'?'28 delays (48%)':'6 delays (38%)' )+'</span></div>'+pBar(st==='r'?57:st==='a'?48:38,'#ef4444')+'</div>'
+  +'<div style="background:#0f172a;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Signalling issues</span><span class="amb">'+(st==='r'?'31 delays (24%)':st==='a'?'14 delays (24%)':'3 delays (19%)')+'</span></div>'+pBar(st==='r'?24:st==='a'?24:19,'#f59e0b')+'</div>'
+  +'<div style="background:#0f172a;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>External / passenger</span><span class="grn">'+(st==='r'?'24 delays (19%)':st==='a'?'17 delays (29%)':'7 delays (43%)')+'</span></div>'+pBar(st==='r'?19:st==='a'?29:43,'#22c55e')+'</div>'
+  +'</div></div>'
+  +'</div></div></div>';
+}
+
+function buildDrillSpares() {
+  var line = CTX.line; var sys = CTX.system; var st = CTX.status; var col = statusColor(st);
+  var subs = ['Component A','Component B','Component C','Component D','Component E','Component F'];
+  var sRows = subs.map(function(sub,i){
+    var cur = st==='r'?(i<2?0:i<4?1:2):st==='a'?(i<1?1:2+i):3+i;
+    var sfty=2; var pct=Math.min(100,Math.round(cur/sfty*100));
+    var sc=pct===0?'#f87171':pct<100?'#fbbf24':'#4ade80';
+    var stlbl=pct===0?'ZERO STOCK':pct<100?'BELOW MIN':'OK';
+    var sbg=pct===0?'#450a0a':pct<100?'#451a03':'#052e16';
+    return '<tr><td>'+sub+'</td><td style="color:'+sc+';font-weight:600;">'+cur+'</td><td>'+sfty+'</td>'
+      +'<td><div class="sb-wrap"><div class="sb-fill" style="width:'+pct+'%;background:'+sc+';"></div></div></td>'
+      +'<td style="color:#94a3b8;">'+(st==='r'?'12–18 mo':st==='a'?'6–12 mo':'3–6 mo')+'</td>'
+      +'<td><span class="bdg" style="background:'+sbg+';color:'+sc+';">'+stlbl+'</span></td></tr>';
+  }).join('');
+  document.getElementById('s-drill-spares').innerHTML = '<div class="dk dk-ops">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Spares & Resources',s:'wl-spares'},{l:line+' '+sys+' — Spares Detail',s:'drill-spares'}],'drill-spares')
+  +'<div style="display:flex;flex:1;">'+makeSB('wl-spares',true)+'<div class="rmain">'
+  +'<div class="ptitle">Spares Detail — '+line+' · '+sys+'</div>'
+  +'<div class="psub">Critical spares inventory · Stock health · Lead time analysis</div>'
+  +'<div class="g4" style="margin-bottom:20px;">'
+  +'<div class="mc mc-dk"><div class="mv" style="color:'+col+';">'+(st==='r'?3:st==='a'?1:0)+'</div><div class="ml">Components at zero stock</div></div>'
+  +'<div class="mc mc-dk"><div class="mv" style="color:'+col+';">'+(st==='r'?6:st==='a'?2:0)+'</div><div class="ml">Components below safety level</div></div>'
+  +'<div class="mc mc-dk"><div class="mv amb">'+(st==='r'?'14 mo':st==='a'?'9 mo':'5 mo')+'</div><div class="ml">Avg lead time (critical)</div></div>'
+  +'<div class="mc mc-dk"><div class="mv grn">'+CTX.sparesSupport+'%</div><div class="ml">Spares supportability</div></div>'
+  +'</div>'
+  +'<div class="ch ch-dk" style="margin-bottom:16px;"><div class="ch-t">Critical spares inventory detail — '+line+' '+sys+'</div>'
+  +'<table class="dt"><thead><tr><th>Component</th><th>Current Stock</th><th>Safety Level</th><th>Stock Health</th><th>Lead Time</th><th>Status</th></tr></thead>'
+  +'<tbody>'+sRows+'</tbody></table></div>'
+  +'<div class="ch ch-dk"><div class="ch-t">Stock movement — last 6 months</div><div class="bar-grp">'
+  +makeBars([['Dec',st==='r'?2:st==='a'?5:8,10,'#4ade80',st==='r'?'2':'5','Stock level: '+(st==='r'?2:5)],['Jan',st==='r'?2:st==='a'?4:8,10,'#4ade80',st==='r'?'2':'4','Stock level: '+(st==='r'?2:4)],['Feb',st==='r'?1:st==='a'?4:7,10,'#fbbf24',st==='r'?'1':'4','Stock level depleting'],['Mar',st==='r'?1:st==='a'?3:7,10,'#fbbf24',st==='r'?'1':'3','Stock level: '+(st==='r'?1:3)],['Apr',st==='r'?0:st==='a'?2:6,10,'#f87171',st==='r'?'0':'2','Stock level: '+(st==='r'?0:2)],['May',st==='r'?0:st==='a'?1:6,10,'#f87171',st==='r'?'0':'1','Current stock: '+(st==='r'?0:1)]])+'</div></div>'
+  +'<div style="display:flex;gap:10px;margin-top:16px;">'
+  +'<button class="btn btn-w" onclick="buildModalObs();go(\'modal-obs\')">Flag last-time buy</button>'
+  +'<button class="btn btn-p">Request emergency procurement</button>'
+  +'<button class="btn btn-s" onclick="buildMgmtRisk();go(\'mgmt-risk\')">View management view</button>'
+  +'</div></div></div></div>';
+}
+
+function buildDrillAM() {
+  var line = CTX.line; var sys = CTX.system; var st = CTX.status; var col = statusColor(st);
+  var isRenew = st==='d'||st==='p'||st==='m';
+  document.getElementById('s-drill-am').innerHTML = '<div class="dk dk-ops">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Asset Mgmt & Renewal',s:'wl-am'},{l:line+' '+sys+' Detail',s:'drill-am'}],'drill-am')
+  +'<div style="display:flex;flex:1;">'+makeSB('wl-am',true)+'<div class="rmain">'
+  +'<div class="ptitle">Asset Mgmt Detail — '+line+' · '+sys+'</div>'
+  +'<div class="psub">Obsolescence monitoring + renewal planning combined view</div>'
+  +'<div class="g4" style="margin-bottom:20px;">'
+  +'<div class="mc mc-dk"><div class="mv" style="color:'+col+';">'+(st==='r'||st==='d'?21:st==='a'||st==='p'?8:2)+'</div><div class="ml">Obsolescence assets</div></div>'
+  +'<div class="mc mc-dk"><div class="mv" style="color:'+col+';">'+(st==='r'||st==='d'?7:st==='a'||st==='p'?2:0)+'</div><div class="ml">Assets zero stock</div></div>'
+    +'<div class="mc mc-dk"><div class="mv amb">'+CTX.condScore+'/100</div><div class="ml">Condition score</div></div>'
+    +'<div class="mc mc-dk"><div class="mv blu">'+CTX.remainLife+'%</div><div class="ml">Remaining useful life</div></div>'
+  +'</div>'
+  +'<div class="ch ch-dk" style="margin-bottom:16px;"><div class="ch-t">Obsolescence watchlist — '+line+' '+sys+'</div>'
+  +'<table class="dt"><thead><tr><th>Component</th><th>EOL/EOS Date</th><th>OEM Support</th><th>Interim Mitigation</th><th>LTB Deadline</th><th>Risk</th></tr></thead><tbody>'
+  +'<tr><td>Main controller</td><td style="color:'+col+';">'+(st==='r'||st==='d'?'Jan 2026':'Dec 2027')+'</td><td style="color:'+col+';">'+(st==='r'||st==='d'?'Ended':'Active')+'</td><td>'+(st==='r'||st==='d'?'None identified':'Identified')+'</td><td style="color:'+col+';">'+(st==='r'||st==='d'?'Passed':'Mar 2026')+'</td><td><span class="bdg '+(st==='r'||st==='d'?'bd-r':'bd-a')+'">'+(st==='r'||st==='d'?'CRITICAL':'HIGH')+'</span></td></tr>'
+  +'<tr><td>Power supply unit</td><td style="color:#fbbf24;">Jun 2027</td><td style="color:#fbbf24;">Extended</td><td>Partial</td><td style="color:#fbbf24;">Jun 2026</td><td><span class="bdg bd-a">MED</span></td></tr>'
+  +'<tr><td>Display modules</td><td style="color:#4ade80;">2029</td><td style="color:#4ade80;">Active</td><td>Not needed</td><td style="color:#4ade80;">2028</td><td><span class="bdg bd-g">LOW</span></td></tr>'
+  +'</tbody></table></div>'
+  +'<div class="ch ch-dk"><div class="ch-t">Renewal programme status — '+line+' '+sys+'</div>'
+  +'<table class="dt" style="font-size:11px;"><tbody>'
+  +'<tr><td style="color:#64748b;">Award target</td><td>FY'+(st==='d'||st==='r'?'2026 (OVERDUE)':st==='p'||st==='a'?'2027':'2028')+'</td></tr>'
+  +'<tr><td style="color:#64748b;">Approved budget</td><td>S$'+(st==='d'||st==='r'?412:st==='p'||st==='a'?280:150)+'M</td></tr>'
+  +'<tr><td style="color:#64748b;">Spent to date</td><td style="color:#4ade80;">S$'+(st==='d'||st==='r'?46:st==='p'||st==='a'?12:3)+'M</td></tr>'
+  +'<tr><td style="color:#64748b;">Programme status</td><td style="color:'+col+';">'+statusLabel(st)+'</td></tr>'
+  +'</tbody></table></div>'
+  +'<div style="display:flex;gap:10px;margin-top:16px;">'
+  +(st==='d'||st==='r'?'<button class="btn btn-d" onclick="buildModalFund();go(\'modal-fund\')">Approve funding</button>':'')
+  +'<button class="btn btn-w" onclick="buildModalObs();go(\'modal-obs\')">Flag last-time buy</button>'
+  +'<button class="btn btn-s" onclick="buildMgmtRenew();go(\'mgmt-renew\')">View management view</button>'
+  +'</div></div></div></div>';
+}
+
+function buildDrillLCM() {
+  var line = CTX.line; var sys = CTX.system; var st = CTX.status; var col = statusColor(st);
+  var lcc = st==='r'?423:st==='a'?298:187;
+  var budget = st==='r'?380:st==='a'?280:180;
+  var mtbfDesign = 2000000; var mtbfActual = st==='r'?1820000:st==='a'?2340000:3120000;
+  document.getElementById('s-drill-lcm').innerHTML = '<div class="dk dk-ops">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Life Cycle Management',s:'wl-lcm'},{l:line+' '+sys+' — LCM Detail',s:'drill-lcm'}],'drill-lcm')
+  +'<div style="display:flex;flex:1;">'+makeSB('wl-lcm',true)+'<div class="rmain">'
+  +'<div class="ptitle">Life Cycle Detail — '+line+' · '+sys+'</div>'
+  +'<div class="psub">LCC variance · MTBF design vs actual · Useful life tracking</div>'
+  +'<div class="g4" style="margin-bottom:20px;">'
+  +'<div class="mc mc-dk"><div class="mv" style="color:'+col+';">S$'+lcc+'M</div><div class="ml">Actual LCC</div><div class="bdg '+(lcc>budget?'bd-r':'bd-g')+'">'+(lcc>budget?'+'+Math.round((lcc/budget-1)*100)+'% over budget':'Within budget')+'</div></div>'
+  +'<div class="mc mc-dk"><div class="mv blu">S$'+budget+'M</div><div class="ml">Approved LCC budget</div></div>'
+  +'<div class="mc mc-dk"><div class="mv" style="color:'+col+';">'+(mtbfActual/1000000).toFixed(2)+'M km</div><div class="ml">Actual MTBF</div></div>'
+  +'<div class="mc mc-dk"><div class="mv amb">'+CTX.remainLife+'%</div><div class="ml">Remaining useful life</div></div>'
+  +'</div>'
+  +'<div class="g2" style="margin-bottom:20px;">'
+  +'<div class="ch ch-dk"><div class="ch-t">LCC breakdown — CAPEX vs OPEX (S$M)</div>'
+  +'<div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">'
+  +'<div style="background:#0f172a;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Capital expenditure (CAPEX)</span><span class="blu">S$'+Math.round(lcc*.62)+'M</span></div>'+pBar(62,'#3b82f6')+'</div>'
+  +'<div style="background:#0f172a;border-radius:6px;padding:10px;"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span>Operating expenditure (OPEX)</span><span style="color:#a78bfa;">S$'+Math.round(lcc*.38)+'M</span></div>'+pBar(38,'#7c3aed')+'</div>'
+  +'<div style="font-size:10px;color:#64748b;margin-top:8px;">Data: MLFC Dashboard. US5/US6 (LCC dataset) pending AMSP process resolution.</div>'
+  +'</div></div>'
+  +'<div class="ch ch-dk"><div class="ch-t">MTBF — design vs actual trend</div>'
+  +'<div class="bar-grp">'+makeBars([['Design',(mtbfDesign/10000),350,'#334155',(mtbfDesign/1000000).toFixed(1)+'M','Design MTBF: '+(mtbfDesign/1000000)+'M km'],['Oct',(mtbfActual*.9/10000),350,'#fbbf24',((mtbfActual*.9)/1000000).toFixed(1)+'M','Oct 2025 actual'],['Jan',(mtbfActual*.95/10000),350,'#4ade80',((mtbfActual*.95)/1000000).toFixed(1)+'M','Jan 2026 actual'],['May',(mtbfActual/10000),350,col,(mtbfActual/1000000).toFixed(2)+'M','May 2026 actual MTBF']])+'</div></div></div>'
+  +'<div class="ch ch-dk"><div class="ch-t">Asset useful life profile — '+line+' '+sys+'</div>'
+  +'<table class="dt" style="font-size:11px;"><tbody>'
+  +'<tr><td style="color:#64748b;">Average fleet age</td><td style="color:'+col+';">'+(st==='r'?26:st==='a'?18:12)+' years</td></tr>'
+  +'<tr><td style="color:#64748b;">Intended useful life (IUL)</td><td>20 years</td></tr>'
+  +'<tr><td style="color:#64748b;">% IUL consumed</td><td style="color:'+col+';">'+(100-CTX.remainLife)+'%'+(st==='r'?' (EXCEEDED)':st==='a'?' (APPROACHING)':' (NORMAL)')+'</td></tr>'
+  +'<tr><td style="color:#64748b;">IUL extension status</td><td>'+(st==='r'?'<span class="red">Not approved — overdue</span>':st==='a'?'<span class="amb">Under assessment</span>':'<span class="grn">Not required</span>')+'</td></tr>'
+  +'</tbody></table></div>'
+  +'</div></div></div>';
+}
+
+// ── MODALS ────────────────────────────────────────────────────────
+function buildModalRenew() {
+  var line=CTX.line; var sys=CTX.system; var st=CTX.status;
+  var score=CTX.score; var col=statusColor(st);
+  document.getElementById('s-modal-renew').innerHTML = '<div class="dk">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Asset Risk Monitor',s:'mgmt-risk'},{l:'Renewal Proposal',s:'modal-renew'}],'modal-renew')
+  +'<div class="mo"><div class="mb">'
+  +'<div class="mt-h">Initiate Renewal Proposal</div>'
+  +'<div class="mt-s">Pre-filled from Asset Risk Monitor · Submitted to AMRP for review</div>'
+  +'<div class="rp rp-r">&#9888; '+line+' '+sys+' — Risk score: '+score+'/100 — '+statusLabel(st)+'</div>'
+  +'<div class="fr"><div class="fg"><div class="fl">Rail line</div><select>'+LINES.map(function(l){return '<option'+(l===line?' selected':'')+'>'+l+'</option>';}).join('')+'</select></div>'
+  +'<div class="fg"><div class="fl">System</div><select>'+SYSTEMS.map(function(s){return '<option'+(s===sys?' selected':'')+'>'+s+'</option>';}).join('')+'</select></div></div>'
+  +'<div class="fr"><div class="fg"><div class="fl">Subsystem / fleet</div><input type="text" value="'+sys+' — full system assessment required"></div>'
+  +'<div class="fg"><div class="fl">Assets affected</div><input type="text" value="'+(CTX.score>80?'7 assets EOL within 12 months':CTX.score>60?'3 assets approaching EOL':'1 asset flagged for review')+'"></div></div>'
+  +'<div class="fr"><div class="fg"><div class="fl">Urgency</div><select><option'+(st==='r'?' selected':'')+'>Critical — immediate</option><option'+(st==='a'?' selected':'')+'>High — 3 months</option><option'+(st==='g'?' selected':'')+'>Medium — 6 months</option></select></div>'
+  +'<div class="fg"><div class="fl">Recommended timeline</div><input type="text" value="'+(st==='r'?'Award by Q3 2026':st==='a'?'Award by Q1 2027':'Award by FY2028')+'"></div></div>'
+  +'<div class="fg" style="margin-bottom:12px;"><div class="fl">Reason / justification</div>'
+  +'<textarea>'+line+' '+sys+': Risk score '+score+'/100 ('+statusLabel(st)+'). '+(st==='r'?'Obsolescence HIGH — components EOL within 6 months. Zero spares stock for critical items. OEM last-time buy deadline approaching or passed. Immediate renewal required to prevent unplanned service disruption.':'Signals elevated. Obsolescence and spares levels require monitoring and renewal planning within 3 months.')+'</textarea></div>'
+  +'<div class="fr"><div class="fg"><div class="fl">Estimated cost (S$M)</div><input type="number" value="'+(CTX.score>80?12.5:CTX.score>60?6.5:3.0)+'"></div>'
+  +'<div class="fg"><div class="fl">Route to</div><select><option>AMRP — Renewal Planning</option><option>AE Division — Technical Review</option><option>GD RAOM — Escalation</option></select></div></div>'
+  +'<div class="mf"><button class="btn btn-s" onclick="buildMgmtRisk();go(\'mgmt-risk\')">Cancel</button>'
+  +'<button class="btn btn-p">Save as draft</button>'
+  +'<button class="btn btn-d" onclick="buildMgmtRisk();go(\'mgmt-risk\')">Submit to AMRP →</button></div>'
+  +'</div></div></div>';
+}
+
+function buildModalFund() {
+  var line=CTX.line; var sys=CTX.system; var st=CTX.status;
+  var budget=st==='d'?412:280; var spent=st==='d'?46:12; var tranche=st==='d'?280:180;
+  document.getElementById('s-modal-fund').innerHTML = '<div class="dk">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Renewal Intelligence',s:'mgmt-renew'},{l:'Funding Approval',s:'modal-fund'}],'modal-fund')
+  +'<div class="mo"><div class="mb">'
+  +'<div class="mt-h">Funding Approval — Renewal Programme</div>'
+  +'<div class="mt-s">'+line+' '+sys+' Renewal — For management approval and release</div>'
+  +'<div class="rp rp-a">&#9888; Renewal '+statusLabel(st)+' — '+line+' '+sys+'</div>'
+  +'<div class="fr"><div class="fg"><div class="fl">Rail line</div><select>'+LINES.map(function(l){return '<option'+(l===line?' selected':'')+'>'+l+'</option>';}).join('')+'</select></div>'
+  +'<div class="fg"><div class="fl">Asset / system</div><input type="text" value="'+sys+' — renewal programme"></div></div>'
+  +'<div class="fr"><div class="fg"><div class="fl">Total approved budget (S$M)</div><input type="number" value="'+budget+'"></div>'
+  +'<div class="fg"><div class="fl">Funding tranche requested (S$M)</div><input type="number" value="'+tranche+'"></div></div>'
+  +'<div class="fr"><div class="fg"><div class="fl">Block vote reference</div><input type="text" value="BV-OA-2025-'+line+'-'+sys.substring(0,2).toUpperCase()+'"></div>'
+  +'<div class="fg"><div class="fl">Expenditure category</div><select><option>Capital — Operating Assets</option><option>Capital — Infrastructure</option><option>OpEx — Maintenance</option></select></div></div>'
+  +'<div class="fr"><div class="fg"><div class="fl">Approving authority</div><select><option>GD RAOM</option><option>DCE (IFD)</option><option>CE LTA</option><option>MOT/MOF</option></select></div>'
+  +'<div class="fg"><div class="fl">Target approval date</div><input type="text" value="30 Jun 2026"></div></div>'
+  +'<div class="fg" style="margin-bottom:12px;"><div class="fl">Justification</div>'
+  +'<textarea>'+line+' '+sys+' renewal '+statusLabel(st)+'. Funding release of S$'+tranche+'M required to award tender. Asset condition: '+CTX.condScore+'/100. Remaining useful life: '+CTX.remainLife+'%. '+(st==='d'?'Further deferral increases programme cost by est. 3–5% per 6 months.':'Timely release ensures programme stays on track.')+'</textarea></div>'
+  +'<div style="background:#1a1f2e;border-radius:6px;padding:12px;margin-bottom:12px;">'
+  +'<div style="font-size:11px;font-weight:600;color:#e2e8f0;margin-bottom:8px;">Funding status summary</div>'
+  +'<div style="display:flex;gap:16px;">'
+  +'<div><div style="font-size:10px;color:#64748b;">Total approved</div><div style="font-size:16px;font-weight:700;color:#4ade80;">S$'+budget+'M</div></div>'
+  +'<div><div style="font-size:10px;color:#64748b;">Spent to date</div><div style="font-size:16px;font-weight:700;color:#7dd3fc;">S$'+spent+'M</div></div>'
+  +'<div><div style="font-size:10px;color:#64748b;">This tranche</div><div style="font-size:16px;font-weight:700;color:#fbbf24;">S$'+tranche+'M</div></div>'
+  +'<div><div style="font-size:10px;color:#64748b;">Remaining after</div><div style="font-size:16px;font-weight:700;color:#94a3b8;">S$'+(budget-spent-tranche)+'M</div></div>'
+  +'</div></div>'
+  +'<div class="mf"><button class="btn btn-s" onclick="buildMgmtRenew();go(\'mgmt-renew\')">Cancel</button>'
+  +'<button class="btn btn-p">Save for review</button>'
+  +'<button class="btn btn-d" onclick="buildMgmtRenew();go(\'mgmt-renew\')">Submit for approval</button></div>'
+  +'</div></div></div>';
+}
+
+function buildModalObs() {
+  document.getElementById('s-modal-obs').innerHTML = '<div class="dk">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Flag Last-Time Buy',s:'modal-obs'}],'modal-obs')
+  +'<div class="mo"><div class="mb">'
+  +'<div class="mt-h">Flag for Last-Time Buy</div>'
+  +'<div class="mt-s">'+CTX.line+' '+CTX.system+' — Urgent procurement action required</div>'
+  +'<div class="rp rp-r">&#9888; EOL/EOS declared — last opportunity to procure parts</div>'
+  +'<div class="fr"><div class="fg"><div class="fl">Rail line</div><select>'+LINES.map(function(l){return '<option'+(l===CTX.line?' selected':'')+'>'+l+'</option>';}).join('')+'</select></div>'
+  +'<div class="fg"><div class="fl">System</div><input type="text" value="'+CTX.system+'"></div></div>'
+  +'<div class="fr"><div class="fg"><div class="fl">Component / part</div><input type="text" value="Brake control unit — Part No. TBC"></div>'
+  +'<div class="fg"><div class="fl">OEM / Supplier</div><input type="text" value="Knorr-Bremse (confirm with AERS)"></div></div>'
+  +'<div class="fr"><div class="fg"><div class="fl">EOL/EOS date</div><input type="text" value="Jan 2026"></div>'
+  +'<div class="fg"><div class="fl">LTB deadline</div><input type="text" value="Mar 2026 (PASSED)"></div></div>'
+  +'<div class="fr"><div class="fg"><div class="fl">Quantity required</div><input type="number" value="12"></div>'
+  +'<div class="fg"><div class="fl">Estimated lead time</div><input type="text" value="14–18 months"></div></div>'
+  +'<div class="fg" style="margin-bottom:12px;"><div class="fl">Remarks</div>'
+  +'<textarea>LTB deadline has passed. Emergency procurement required. Confirm with AERS if alternative supplier exists before proceeding. If no alternative, initiate renewal proposal immediately.</textarea></div>'
+  +'<div class="mf"><button class="btn btn-s" onclick="buildDrillRisk();go(\'drill-risk\')">Cancel</button>'
+  +'<button class="btn btn-p">Save as draft</button>'
+  +'<button class="btn btn-d">Submit to AE Division →</button></div>'
+  +'</div></div></div>';
+}
+
+function buildModalAudit() {
+  document.getElementById('s-modal-audit').innerHTML = '<div class="dk">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Operator Performance',s:'mgmt-ops'},{l:'Issue Observation Notice',s:'modal-audit'}],'modal-audit')
+  +'<div class="mo"><div class="mb">'
+  +'<div class="mt-h">Issue Observation Notice</div>'
+  +'<div class="mt-s">'+CTX.line+' ('+CTX.pto+') — Maintenance non-compliance action</div>'
+  +'<div class="rp rp-r">&#9888; Non-compliant — PM '+CTX.pmPct+'% vs target 95% · Rework '+CTX.rework+'%</div>'
+  +'<div class="fr"><div class="fg"><div class="fl">Rail line</div><select>'+LINES.map(function(l){return '<option'+(l===CTX.line?' selected':'')+'>'+l+'</option>';}).join('')+'</select></div>'
+  +'<div class="fg"><div class="fl">Operator (PTO)</div><input type="text" value="'+CTX.pto+'"></div></div>'
+  +'<div class="fr"><div class="fg"><div class="fl">Observation type</div><select><option>Maintenance Non-Compliance</option><option>Audit Finding</option><option>KPI Breach</option><option>Manpower Deficiency</option></select></div>'
+  +'<div class="fg"><div class="fl">Severity</div><select><option>Major</option><option>Minor</option><option>Observation</option></select></div></div>'
+  +'<div class="fr"><div class="fg"><div class="fl">Reference month</div><input type="text" value="May 2026"></div>'
+  +'<div class="fg"><div class="fl">Response required by</div><input type="text" value="30 Jun 2026"></div></div>'
+  +'<div class="fg" style="margin-bottom:12px;"><div class="fl">Observation details</div>'
+  +'<textarea>'+CTX.line+' ('+CTX.pto+'): PM completion rate '+CTX.pmPct+'% in May 2026 against licence requirement of ≥95%. Overdue WOs: '+CTX.owCount+' (target &lt;50). Rework rate: '+CTX.rework+'% (target &lt;5%). PTO to submit corrective action plan within 14 days including root cause analysis, immediate remedial actions, and timeline for KPI recovery.</textarea></div>'
+  +'<div class="fg" style="margin-bottom:12px;"><div class="fl">Relevant licence clause</div><input type="text" value="AMR Schedule 3, Clause 4.2 — Maintenance Performance Standards"></div>'
+  +'<div class="mf"><button class="btn btn-s" onclick="buildDrillOps();go(\'drill-ops\')">Cancel</button>'
+  +'<button class="btn btn-p">Save as draft</button>'
+  +'<button class="btn btn-d">Issue to '+CTX.pto+' →</button></div>'
+  +'</div></div></div>';
+}
+
+// ── CONFIGURE ─────────────────────────────────────────────────────
+function buildCfg() {
+  document.getElementById('s-cfg').innerHTML = '<div class="dk">'
+  +makeNav([{l:'RailADM Home',s:'home'},{l:'Configure Risk Scores',s:'cfg'}],'cfg')
+  +'<div style="display:flex;flex:1;">'+makeSB('cfg',false)+'<div class="rmain">'
+  +'<div class="ptitle">Risk Score Configuration</div>'
+  +'<div class="psub">Adjust signal dimension weights and alert thresholds. Management access only. Changes affect all rail lines.</div>'
+  +'<div class="g2" style="margin-bottom:20px;">'
+  +'<div class="cc"><div class="ct">Composite risk score — signal weightings</div>'
+  +[['Obsolescence risk','obs',40],['Spares stock level','spr',35],['Asset criticality','crit',25]].map(function(r){
+    return '<div class="sr"><div class="sl"><span>'+r[0]+'</span><span class="sv" id="v-'+r[1]+'">'+r[2]+'%</span></div><input type="range" min="0" max="60" step="1" value="'+r[2]+'" oninput="document.getElementById(\'v-'+r[1]+'\').textContent=this.value+\'%\'"></div>';
+  }).join('')
+  +'<div style="font-size:11px;color:#64748b;margin-top:10px;padding-top:10px;border-top:1px solid #334155;">Adjust weights to reflect RAOM priorities. Total should equal 100%.</div>'
+  +'</div>'
+  +'<div class="cc"><div class="ct">Alert thresholds</div>'
+  +[['Critical threshold',80],['High threshold',60],['Medium threshold',40]].map(function(r){
+    return '<div class="sr"><div class="sl"><span>'+r[0]+'</span><span class="sv">'+r[1]+'</span></div><input type="range" min="20" max="95" step="1" value="'+r[1]+'" oninput="this.previousElementSibling.lastElementChild.textContent=this.value"></div>';
+  }).join('')
+  +'</div></div>'
+  +'<div class="g2">'
+  +'<div class="cc"><div class="ct">Obsolescence scoring rules</div>'
+  +[['EOL within 6 months',40],['EOL 6–12 months',30],['EOL 12–24 months',20],['EOS declared (no EOL)',25],['Zero spares stock contribution',35]].map(function(r){
+    return '<div class="sr"><div class="sl"><span style="font-size:11px;">'+r[0]+'</span><span class="sv">'+r[1]+' pts</span></div><input type="range" min="0" max="50" step="1" value="'+r[1]+'" oninput="this.previousElementSibling.lastElementChild.textContent=this.value+\' pts\'"></div>';
+  }).join('')
+  +'</div>'
+  +'<div class="cc"><div class="ct">Data sources powering the score</div>'
+  +[['Obsolescence','MPR — monthly PTO submission','Active','bd-g'],['Critical spares stock','MPR — Spares dataset','Active','bd-g'],['Asset criticality','Asset Hierarchy (AMDA)','Active','bd-g'],['Fault rate','SSFTAR — quarterly','Active','bd-g'],['Condition score','ACA — annual','Pending','bd-a'],['MTBF actual','To be built (US7)','Pending','bd-a']].map(function(r){
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #1e3a5f;">'
+      +'<div><div style="color:#e2e8f0;font-size:12px;">'+r[0]+'</div><div style="color:#64748b;font-size:10px;margin-top:2px;">'+r[1]+'</div></div>'
+      +'<span class="bdg '+r[3]+'">'+r[2]+'</span></div>';
+  }).join('')+'</div></div>'
+  +'<div style="display:flex;gap:8px;margin-top:16px;">'
+  +'<button class="btn btn-p">Save configuration</button>'
+  +'<button class="btn btn-s">Reset to defaults</button>'
+  +'<button class="btn btn-s" onclick="buildMgmtRisk();go(\'mgmt-risk\')">Back to risk monitor</button>'
+  +'</div></div></div></div>';
+}
+
+// ── INIT ──────────────────────────────────────────────────────────
+function initAll() {
+  buildOlive();
+  buildHome();
+  buildMgmtRisk();
+  buildMgmtRenew();
+  buildMgmtOps();
+  buildDrillRisk();
+  buildDrillRenew();
+  buildDrillOps();
+  buildModalRenew();
+  buildModalFund();
+  buildModalObs();
+  buildModalAudit();
+  buildWLInv();
+  buildWLPerf();
+  buildWLSpares();
+  buildWLAM();
+  buildWLLCM();
+  buildDrillInv();
+  buildDrillPerf();
+  buildDrillSpares();
+  buildDrillAM();
+  buildDrillLCM();
+  buildCfg();
+  go('olive');
+}
+initAll();
+</script>
+</body>
+</html>
