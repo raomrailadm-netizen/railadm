@@ -1,96 +1,200 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script defer src="/_vercel/insights/script.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css"
-    />
-    <title>Vercel HTML Starter</title>
-    <meta
-      name="description"
-      content="High-performance HTML based website template."
-    />
-  </head>
-  <body>
-    <h1>Vercel HTML Starter</h1>
-    <p>
-      This template is a simple, but powerful single
-      <code>index.html</code> file deployed to
-      <a href="https://vercel.com">Vercel</a>. When your site is deployed, all
-      static assets (like HTML, JavaScript, CSS, images, and more) are deployed
-      globally to every
-      <a href="https://vercel.com/docs/concepts/edge-network/overview"
-        >Vercel Edge Network</a
-      >
-      region.
-    </p>
-    <h2>Simple, privacy-friendly analytics</h2>
-    <p>
-      Want to understand your visitor traffic? Vercel Analytics gives you
-      first-party, privacy-friendly traffic analytics for your HTML site. This
-      template is already configured using the following script:
-    </p>
-    <pre><code>&lt;script defer src="/_vercel/insights/script.js"&gt;&lt;/script&gt;</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/analytics">Vercel Analytics</a>.
-    </p>
-    <h2>Integrated with git</h2>
-    <p>
-      Deploying updates to your site is as simple as
-      <code>git push</code> thanks to Vercel's advanced
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-      Support for GitHub, GitLab, Bitbucket is zero-configuration, and with the
-      flexible Vercel CLI and API, you can integrate with any tool possible.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-    </p>
-    <h2>Fast <code>gzip</code> compression</h2>
-    <p>
-      To help ensure the smallest possible file sizes for your static assets,
-      the Vercel Edge Network compresses files by default using
-      <code>gzip</code>. You can also optionally use
-      <code>brotli</code> compressesion if you prefer.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/edge-network/compression"
-        >compression</a
-      >.
-    </p>
-    <h2>Advanced routing configuration</h2>
-    <p>
-      Vercel gives you a variety of ways to configure the routing of your
-      website. For example, adding redirects, rewrites, or headers to your page.
-      While you can use <code>vercel.json</code> to define these through JSON,
-      you can also express your routing configuration as code using
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-    <p>
-      Middleware runs before the
-      <a href="https://vercel.com/docs/concepts/edge-network/caching"
-        >Vercel Edge Network Cache</a
-      >, so you can configure routing exactly as your application needs. For
-      example, this template uses <code>middleware.js</code> defined in the root
-      of the repository to add additional security headers to the site:
-    </p>
-    <pre><code>referrer-policy: origin-when-cross-origin
-strict-transport-security: max-age=31536000; includeSubDomains; preload
-x-content-type-options: nosniff
-x-dns-prefetch-control: on
-x-frame-options: DENY</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-  </body>
-</html>
+I want you to act as a Jeju travel researcher + family road trip planner.
+
+Your job is to first do current web research, then create a specific, practical, route-efficient itinerary for my family trip to Jeju.
+
+Important
+I do not want a generic itinerary.
+
+Do not give vague suggestions like:
+
+“have lunch nearby”
+“eat at a local restaurant”
+“explore the area”
+“shop in Jeju City”
+I want a plan that is specific enough to use directly.
+
+For every day, I want:
+
+clear activity planning
+route logic
+estimated drive times
+café/rest buffers
+meal area for lunch and dinner
+2–3 restaurant choices for each meal
+explanation of why those restaurant choices fit that day’s route
+If you are uncertain about a restaurant, say so clearly and provide alternatives.
+
+Trip details
+Destination: Jeju, South Korea
+Travel dates: 14 Oct to 20 Oct
+Arrival: 14 Oct, 9:00 AM at Jeju Airport
+Rental car pickup: around 10:30 AM
+Departure: 20 Oct, 7:40 PM
+Travel group:
+me
+my wife
+my 3-year-old son
+my mother-in-law
+helper
+Transport: self-drive SUV
+Accommodation: Airbnb
+I will book the Airbnb myself, so I need you to recommend the best areas to stay
+I am open to 1 base or 2 bases
+Please optimize for the whole island
+Travel style
+Pace: medium
+Activity mix: 60% child-focused, 40% adult-focused
+Avoid long hikes
+We are okay with 1 to 1.5 hours driving sometimes, but not every day
+Outdoor playgrounds should preferably be planned when it is less hot / less sunny
+My son may nap in the car or at a café, so include intentional café/rest stops
+The itinerary should be practical, comfortable, and not too rushed
+Must-have interests
+Tangerine farm
+Farm / animal experience
+Good playgrounds or child-friendly outdoor areas
+Black pork
+Café stops
+Adult interests:
+shopping for baby/kids items
+skincare/cosmetics
+clothes
+affordable / value-for-money shopping
+Food requirements
+No dietary restrictions
+Food should be good, popular, well-rated, and practical for the route
+I want restaurants that are actually worth going to
+If a place is famous but inconvenient, overrated, or likely to involve long queues, mention that
+Prioritize family-practical options where possible
+Step 1: Research first
+Use current web research to identify and shortlist:
+
+Best areas in Jeju to stay
+Whether 1 base or 2 bases is better
+Best tangerine farm options in mid-October
+Good farm / animal experiences
+Good playgrounds / child-friendly parks / family attractions
+Good shopping areas for:
+baby/kids items
+skincare/cosmetics
+clothes
+affordable shopping
+Good cafés that work well as rest stops
+Good black pork restaurants and other strong meal areas
+Good rainy-day alternatives
+Which attractions or restaurants need advance booking
+Estimated driving times between key regions
+Any places that are popular online but may be overrated, inconvenient, too crowded, too adult-oriented, or not ideal for this family trip
+For shortlisted places, explain briefly:
+
+why they fit this trip
+whether they are best for child / adult / mixed
+whether they are seasonal
+whether they are worth the detour
+Step 2: Recommend the stay strategy
+Compare:
+
+Option A: 1 base
+Option B: 2 bases
+Then recommend the better option based on:
+
+route efficiency
+family comfort
+reduced backtracking
+practicality for day 1 and day 7
+food and shopping convenience
+suitability for a 3-year-old
+If recommending 2 bases, tell me:
+
+which 2 areas
+how many nights in each
+what kind of days should be planned from each base
+pros and cons of each area
+Also give me the top Airbnb search areas I should look at manually.
+
+Step 3: Build the itinerary
+Create a full itinerary from 14 Oct to 20 Oct.
+
+For each day, include:
+
+Main region/zone for the day
+Morning activity
+Lunch meal area
+Afternoon activity
+Café / rest / nap buffer
+Dinner meal area
+Evening suggestion if useful
+Estimated driving times between stops
+Whether booking is needed
+Why the route sequence makes sense
+Please optimize by geographic cluster and avoid unnecessary backtracking.
+
+Keep the number of major stops realistic for a family with a 3-year-old.
+
+Step 4: Meal planning requirement
+This is very important.
+
+For every lunch and every dinner, do not give only one restaurant and do not stay vague.
+
+Instead, give:
+
+meal area
+2–3 restaurant choices
+what each restaurant is known for
+why they fit the route
+whether they are popular / well-rated / family-practical
+any caution such as queue, limited parking, or reservation need
+Example format:
+
+Lunch area: Seogwipo downtown
+Options:
+
+Restaurant A – black pork, popular, 8 min from attraction, good for families
+Restaurant B – seafood noodle, well-rated, easier parking
+Restaurant C – Korean set meal, less famous but convenient backup
+Do this for every lunch and dinner of every day.
+
+Step 5: Time-blocked schedule
+After the narrative itinerary, provide a spreadsheet-style time-blocked schedule for each day.
+
+For example:
+
+8:00 breakfast
+9:00 depart
+9:40 attraction 1
+11:45 lunch area + restaurant options
+1:15 café / rest / nap buffer
+2:30 attraction 2
+5:45 dinner area + restaurant options
+7:30 return to Airbnb
+The timing does not need to be exact to the minute, but it should be realistic.
+
+Step 6: Output format
+Please structure your answer in this order:
+
+Research summary
+Recommended stay strategy: 1 base vs 2 bases
+Best Airbnb areas to search
+Attraction shortlist by region
+Shopping shortlist by region
+Café shortlist by region
+Restaurant shortlist by region
+Full itinerary overview
+Detailed day-by-day itinerary
+Time-blocked itinerary table
+Booking checklist
+Rainy-day alternatives
+Places to skip or deprioritize
+Final practical tips
+Quality control instructions
+Before answering, check your own work and make sure:
+
+every day has a clear lunch area and dinner area
+every lunch and dinner has 2–3 restaurant choices
+restaurant choices are actually near the route
+the itinerary is not too rushed
+there are child-friendly activities on most days
+there are intentional café/rest buffers
+day 1 and day 7 are efficient because of flight timing
+the stay recommendation matches the route logic
+If your answer is still generic, revise it before giving the final answer.
